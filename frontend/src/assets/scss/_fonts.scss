@@ -1,0 +1,63 @@
+@font-face {
+    font-display: fallback;
+    font-family: 'Work Sans';
+    font-style: normal;
+    font-weight: $font-weight-thin;
+    src: url('~@/assets/fonts/WorkSans/WorkSans-Thin.ttf') format("truetype"); 
+}
+@font-face {
+    font-display: fallback;
+    font-family: 'Work Sans';
+    font-style: normal;
+    font-weight: $font-weight-extra-light;
+    src: url('~@/assets/fonts/WorkSans/WorkSans-ExtraLight.ttf') format("truetype");
+}
+@font-face {
+    font-display: fallback;
+    font-family: 'Work Sans';
+    font-style: normal;
+    font-weight: $font-weight-light;
+    src: url('~@/assets/fonts/WorkSans/WorkSans-Light.ttf') format("truetype");
+}
+@font-face {
+    font-display: fallback;
+    font-family: 'Work Sans';
+    font-style: normal;
+    font-weight: $font-weight-regular;
+    src: url('~@/assets/fonts/WorkSans/WorkSans-Regular.ttf') format("truetype");
+}
+@font-face {
+    font-display: fallback;
+    font-family: 'Work Sans';
+    font-style: normal;
+    font-weight: $font-weight-medium;
+    src: url('~@/assets/fonts/WorkSans/WorkSans-Medium.ttf') format("truetype");
+}
+@font-face {
+    font-display: fallback;
+    font-family: 'Work Sans';
+    font-style: normal;
+    font-weight: $font-weight-semibold;
+    src: url('~@/assets/fonts/WorkSans/WorkSans-SemiBold.ttf') format("truetype");
+}
+@font-face {
+    font-display: fallback;
+    font-family: 'Work Sans';
+    font-style: normal;
+    font-weight: $font-weight-bold;
+    src: url('~@/assets/fonts/WorkSans/WorkSans-Bold.ttf') format("truetype");
+}
+@font-face {
+    font-display: fallback;
+    font-family: 'Work Sans';
+    font-style: normal;
+    font-weight: $font-weight-extra-bold;
+    src: url('~@/assets/fonts/WorkSans/WorkSans-ExtraBold.ttf') format("truetype");
+}
+@font-face {
+    font-display: fallback;
+    font-family: 'Work Sans';
+    font-style: normal;
+    font-weight: $font-weight-black;
+    src: url('~@/assets/fonts/WorkSans/WorkSans-Black.ttf') format("truetype");
+}
