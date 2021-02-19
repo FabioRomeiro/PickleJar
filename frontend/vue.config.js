@@ -16,6 +16,7 @@ module.exports = {
                     @import "@/assets/scss/_functions.scss";
                     @import "@/assets/scss/_fonts.scss";
                     @import "@/assets/scss/_icons.scss";
+                    @import "@/assets/scss/_global.scss";
                 `
             }
         }

@@ -1,0 +1,22 @@
+body {
+    background-color: #FBFBFB;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 14px;
+    color: $color-black;
+}
+
+strong {
+    font-weight: $font-weight-semibold;
+}
+
+a {
+    color: $color-green-dark;
+    font-weight: $font-weight-medium;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+
+    .material-icons {
+        margin-right: spacing(2);
+    }
+}
