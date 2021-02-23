@@ -39,6 +39,9 @@ const mutations = {
 }
 
 const getters = {
+	credentials(state) {
+		return state.credentials
+	},
 	favoriteCredentials(state) {
 		return state.credentials.filter(credential => credential.favorite)
 	},
@@ -63,6 +66,11 @@ const getters = {
 }
 
 const actions = {
+	async getAllCredentials({ commit, getters }) {
+		const credentials = await api.getAllCredentials()
+		commit('ADD_CREDENTIALS', credentials)
+		return getters.credentials
+    },
 	async getFavoriteCredentials({ commit, getters }) {
 		const credentials = await api.getFavoriteCredentials()
 		commit('ADD_CREDENTIALS', credentials)

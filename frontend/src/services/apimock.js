@@ -38,8 +38,11 @@ const api = {
     },
 
     // Credentials
-    getFavoriteCredentials() {
+    getAllCredentials() {
         return mockasync(credentials).then(res => res.data)
+    },
+    getFavoriteCredentials() {
+        return mockasync(credentials.filter(credential => credential.favorite)).then(res => res.data)
     },
     getRecentAccessedCredentials(limit=5) {
         function _sortLastAccessed(a, b) {

@@ -257,7 +257,7 @@ export default {
         &--favorite {
             #{$this}__info {
                 
-                .title {
+                .title-wrapper {
                     .icon {
                         color: $color-yellow;
                     }

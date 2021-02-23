@@ -91,17 +91,22 @@ export default {
             this.saveCredentialWithPassword()
         },
         saveCredentialWithPassword() {
-            let data = {...this.credential}
-            if (this.password) {
-                data.password = this.password
+            if (this.savingTimeout) {
+                clearTimeout(this.savingTimeout)
             }
-            this.$store.dispatch('credentials/saveCredential', data)
+            this.savingTimeout = setTimeout(() => {
+                let data = {...this.credential}
+                if (this.password) {
+                    data.password = this.password
+                }
+                this.$store.dispatch('credentials/saveCredential', data)
+            }, 1000)
         }
     },
     data() {
         return {
             passwordVisible: false,
-            test: 'test'
+            savingTimeout: null
         }
     }
 }
