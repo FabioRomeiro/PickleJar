@@ -1,10 +1,15 @@
+import store from '@/store/index.js'
+import { copy } from '@/helpers/ClipBoard.js'
+
 export const CredentialMixins = {
     methods: {
-        toggleFavorite(credential) {
-            
+        async toggleFavorite(credential) {
+            const newState = await store.dispatch('credentials/toggleCredentialFavorite', credential)
+            return newState
         },
-        copyPassword(credentialId) {
-            
+        async copyPassword(credentialId) {
+            const password = await store.dispatch('credentials/getCredentialPassword', credentialId)
+            copy(password)
         },
         registLinkAccess(credentialId) {
             

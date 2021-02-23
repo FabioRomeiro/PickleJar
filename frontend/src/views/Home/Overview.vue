@@ -53,7 +53,7 @@
 
                 <div class="overview__all-credentials">
                     <router-link to="/credentials" class="link">
-                        <span>Access all <strong>{{ credentials.length }} credentials</strong></span>
+                        <span>Access all <strong>{{ numberOfCredentials }} credentials</strong></span>
                         <i class="material-icons">keyboard_arrow_right</i>
                     </router-link>
                 </div>
@@ -83,16 +83,24 @@ export default {
         Card,
         CustomButton
     },
+    async created() {
+        await this.$store.dispatch('credentials/getFavoriteCredentials')
+        await this.$store.dispatch('credentials/getRecentAccessedCredentials', 5)
+        await this.$store.dispatch('credentials/getNumberOfCredentials')
+    },
     computed: {
-        credentials() {
-            return []
+        favoriteCredentials() {
+            return this.$store.getters['credentials/favoriteCredentials']
+        },
+        numberOfCredentials() {
+            return this.$store.getters['credentials/numberOfCredentials']
         },
         recentAccessedCredentials() {
-            return []
-        },
-        favoriteCredentials() {
-            return []
+            return this.$store.getters['credentials/recentAccessedCredentials'](5)
         }
+    },
+    data() {
+        return {}
     },
     methods: {
         openCredentialCreation() {

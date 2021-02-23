@@ -26,7 +26,7 @@
                 </a>
                 <span href class="info-access">
                     <span v-if="!mock">
-                        Accessed at {{ accessDate(credential.lastAccess) }}
+                        Accessed at {{ accessDate(credential.last_access) }}
                     </span>
                 </span>
             </div>
@@ -74,16 +74,16 @@ export default {
     },
     mixins: [CredentialMixins, UtilsMixins],
     methods: {
-        toggleCredentialFavoriteState() {
+        async toggleCredentialFavoriteState() {
             if (this.mock) {
-                return;
+                return
             }
 
-            this.toggleFavorite(this.credential);
+            await this.toggleFavorite(this.credential)
         },
         openCredential() {
             if (this.mock) {
-                return;
+                return
             }
 
             // EventBus.$emit(EventBus.events.VIEW_PASSWORD, this.credential.id);
