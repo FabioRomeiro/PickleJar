@@ -1,6 +1,5 @@
 <template>
-    <button 
-        @click.prevent="click" 
+    <button
         :disabled="disabled"
         class="custom-button"
         :type="type"
@@ -23,13 +22,6 @@ export default {
         variant: String
     },
     methods: {
-        click() {
-            if (this.disabled) {
-                return;
-            }
-
-            this.$emit('click');
-        },
         getClasses() {
             const base = 'custom-button--';
             let variant = base + this.variant

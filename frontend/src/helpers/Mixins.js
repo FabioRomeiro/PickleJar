@@ -10,9 +10,6 @@ export const CredentialMixins = {
         async copyPassword(credentialId) {
             const password = await store.dispatch('credentials/getCredentialPassword', credentialId)
             copy(password)
-        },
-        registLinkAccess(credentialId) {
-            
         }
     }
 }

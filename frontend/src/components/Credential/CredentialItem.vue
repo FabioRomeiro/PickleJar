@@ -15,7 +15,7 @@
 
             <div class="credential-item__info">
                 <p class="info-title">
-                    {{ credential.name }}
+                    {{ credentialName }}
                 </p>
                 <a 
                     :href="credential.link" 
@@ -70,6 +70,15 @@ export default {
                 'credential-item__pic--favorite': this.credential.favorite,
                 'credential-item__pic--mock': this.mock 
             }
+        },
+        credentialName() {
+            if (this.credential.name) {
+                return this.credential.name
+            }
+            if (!this.mock) {
+                return 'Nova credencial'
+            }
+            return ''
         }
     },
     mixins: [CredentialMixins, UtilsMixins],
@@ -86,7 +95,7 @@ export default {
                 return
             }
 
-            // EventBus.$emit(EventBus.events.VIEW_PASSWORD, this.credential.id);
+            this.$eventBus.emit(this.$eventKeys.VIEW_CREDENTIAL, this.credential);
         }
     }
 }

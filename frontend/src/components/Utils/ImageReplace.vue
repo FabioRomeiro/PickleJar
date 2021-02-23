@@ -23,29 +23,40 @@ export default {
     },
     computed: {
         classes() {
-            const base = 'image-replace__replace--';
-            let classes = [];
+            const base = 'image-replace__replace--'
+            let classes = []
     
             if (this.variant) {
-                let variants = this.variant.split(' ');
-                classes = classes.concat(variants.map(variant => base + variant));
+                let variants = this.variant.split(' ')
+                classes = classes.concat(variants.map(variant => base + variant))
             }
 
-            return classes;
+            return classes
         },
         initials() {
             if (!this.name) {
-                return;
+                return
             }
 
-            let words = this.name.split();
+            const words = this.name.replace(/^\s+|\s+$/g, '').split(' ')
+            let initials = ''
+            
+            const firstLetter = words[0][0]
+            if (firstLetter) {
+                initials = firstLetter
+            }
 
             if (words.length > 1) {
-                return (words[0][0] + words[words.length - 1][0]).toUpperCase();
+                const firstLetterOfLastWord = words[words.length - 1][0]
+                initials += firstLetterOfLastWord
             }
             else {
-                return (words[0][0] + words[0][1]).toUpperCase();
+                const secondLetter = words[0][1]
+                if (secondLetter) {
+                    initials += secondLetter
+                }
             }
+            return initials.toUpperCase()
         }
     }
 }

@@ -21,7 +21,7 @@
                                 title="No favorite credential"
                                 description="Click above the credential's image to mark it as favorite."
                             >
-                                <CredentialItem :mock="true" />
+                                <CredentialItem mock />
                             </EmptyCasePlaceholder>
                         </ul>
                     </template>
@@ -104,7 +104,7 @@ export default {
     },
     methods: {
         openCredentialCreation() {
-            // EventBus.$emit(EventBus.events.ADD_PASSWORD);
+            this.$eventBus.emit(this.$eventKeys.ADD_CREDENTIAL)
         }
     },
 }

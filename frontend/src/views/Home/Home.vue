@@ -4,16 +4,19 @@
 		<div class="home__wrapper">
 			<router-view/>
 		</div>
+		<CredentialWorkspace />
 	</div>
 </template>
 
 <script>
 import Toolbar from '@/components/Toolbar/Toolbar.vue'
+import CredentialWorkspace from '@/components/CredentialWorkspace/CredentialWorkspace.vue'
 
 export default {
 	name: "Home",
 	components: {
-		Toolbar
+		Toolbar,
+		CredentialWorkspace
 	}
 };
 </script>
