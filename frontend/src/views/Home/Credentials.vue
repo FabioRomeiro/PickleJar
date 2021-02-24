@@ -1,7 +1,7 @@
 <template>
     <ListingSection class="credentials" headerTitle="Credentials" headerIcon="lock">
         <template v-slot:headerButtons>
-            <CustomButton class="credentials__header-button" variant="neutral" @click="$router.push('/')">
+            <CustomButton class="header-button" variant="neutral" @click="$router.push('/')">
                 Voltar
             </CustomButton>
             <CustomButton class="credentials__header-button" @click="addNewCredential()">
@@ -9,21 +9,21 @@
             </CustomButton>
         </template>
         <template v-slot:filters>
-            <div class="credentials__filter">
+            <div class="listing-filter">
                 <span class="label">Credential status</span>
                 <CustomSelect
                     v-model="credentialStatus"
                     :options="statusOptions"
                 />
             </div>
-            <div class="credentials__filter">
+            <div class="listing-filter">
                 <span class="label">Sort by</span>
                 <CustomSelect
                     v-model="sortBy"
                     :options="sortOptions"
                 />
             </div>
-            <div class="credentials__filter">
+            <div class="listing-filter">
                 <CustomCheckbox
                     v-model="favoritesOnly"
                     label="Favorites only"
@@ -39,7 +39,6 @@
                     <EmptyCasePlaceholder
                         title="No credentials were found"
                         description="Try another filter combination to find exactly what you need."
-                        :condition="true"
                     >
                         <CredentialCard mock />
                     </EmptyCasePlaceholder>
@@ -72,7 +71,7 @@ export default {
     },
     computed: {
         credentials() {
-            return this.$store.getters['credentials/credentials'] || []
+            return this.$store.getters['credentials/credentials']
         },
         filteredCredentials() {
             let filtered = this.credentials
@@ -148,26 +147,6 @@ export default {
 
         &__item {
             margin-right: spacing(2);
-        }
-
-        &__filter {
-            display: flex;
-            align-items: center;
-            margin-right: spacing(3);
-
-            .label {
-                margin-right: spacing(1);
-                font-weight: $font-weight-medium;
-                color: $color-gray-dark;
-            }
-        }
-
-        &__header-button {
-            margin-right: spacing(2);
-
-            &:last-child {
-                margin-right: 0;
-            }
         }
     }
 </style>

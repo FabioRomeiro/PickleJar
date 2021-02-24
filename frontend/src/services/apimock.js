@@ -1,4 +1,5 @@
 import { credentials, passwords } from './mock/DB_Credentials.js'
+import { logs } from './mock/DB_Logs.js'
 
 var logged_user = null;
 
@@ -88,6 +89,11 @@ const api = {
         }
         passwords.push(newCredential)
         return mockasync(newCredential).then(res => res.data)
+    },
+
+    // Logs
+    getAllLogs() {
+        return mockasync(logs).then(res => res.data)
     }
 };
 

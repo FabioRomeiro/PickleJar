@@ -28,14 +28,42 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.listing-section {
+<style lang="scss">
+    .listing-section__filters {
+        display: flex;
+        align-items: center;
+        
+        .listing-filter {
+            display: flex;
+            align-items: center;
+            margin-right: spacing(3);
 
-    &__header {
+            .label {
+                margin-right: spacing(1);
+                font-weight: $font-weight-medium;
+                color: $color-gray-dark;
+            }
+        }
+    }
+
+    .listing-section__header {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        
+        .header-button {
+            margin-right: spacing(2);
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
     }
+
+</style>
+
+<style lang="scss" scoped>
+.listing-section {
 
     &__title {
         font-size: 24px;
@@ -73,11 +101,6 @@ export default {
                 margin-right: 0;
             }
         }
-    }
-
-    &__filters {
-        display: flex;
-        align-items: center;
     }
 }
 </style>
