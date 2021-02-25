@@ -1,5 +1,6 @@
 import { credentials, passwords } from './mock/DB_Credentials.js'
 import { logs } from './mock/DB_Logs.js'
+import { UtilsMixins } from '@/helpers/Mixins'
 
 var logged_user = null;
 
@@ -44,6 +45,14 @@ const api = {
     },
     getFavoriteCredentials() {
         return mockasync(credentials.filter(credential => credential.favorite)).then(res => res.data)
+    },
+    getCredentialByText(text) {
+        return mockasync(credentials.filter(credential => {
+			const searchText = credential.name + credential.username + credential.status + credential.link
+			const normalizedText = UtilsMixins.methods.normalizeText(searchText)
+			const normalizedSearch = UtilsMixins.methods.normalizeText(text)
+			return normalizedText.includes(normalizedSearch)
+		})).then(res => res.data)
     },
     getRecentAccessedCredentials(limit=5) {
         function _sortLastAccessed(a, b) {

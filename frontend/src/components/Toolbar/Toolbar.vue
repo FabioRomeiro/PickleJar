@@ -1,22 +1,21 @@
 <template>
 	<div class="toolbar">
         <Logo class="toolbar__logo" />
+
+		<CredentialSearch class="toolbar__search" />
 	</div>
 </template>
 
 <script>
 import Logo from '@/components/Logo/Logo.vue';
+import CredentialSearch from '@/components/Toolbar/CredentialSearch.vue';
 
 export default {
 	name: 'Toolbar',
 	components: {
-        Logo
-    },
-	data() {
-		return {
-			search: ''
-		};
-	}
+		Logo,
+		CredentialSearch
+    }
 }
 </script>
 

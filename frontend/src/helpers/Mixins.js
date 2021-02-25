@@ -51,6 +51,9 @@ export const UtilsMixins = {
             else {
                 return `${getTimeByDay('sec', difference)} seconds ago`;
             }
+        },
+        normalizeText(text) {
+            return text.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toUpperCase();
         }
     }
 }

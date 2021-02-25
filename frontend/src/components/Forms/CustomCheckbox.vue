@@ -3,9 +3,9 @@
         <input
             :id="id"
             class="custom-checkbox__input" 
-            @change="$emit('input', $event.target.checked)"
+            @change="$emit('update:modelValue', $event.target.checked)"
             type="checkbox"
-            :checked="value"
+            :checked="modelValue"
         />
         
         <div class="custom-checkbox__box"></div>
@@ -22,7 +22,7 @@ export default {
     props: {
         label: String,
         id: String,
-        value: Boolean
+        modelValue: Boolean
     }
 }
 </script>

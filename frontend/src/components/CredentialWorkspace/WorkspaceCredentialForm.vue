@@ -4,14 +4,14 @@
             @input="updateCredentialField($event, 'name')"
             id="credential-name" 
             class="workspace-form__field" 
-            :value="credential.name" 
+            :modelValue="credential.name" 
             label="Password name:"
         />
         <CustomInput 
             @input="updateCredentialField($event, 'username')"
             id="credential-username" 
             class="workspace-form__field" 
-            :value="credential.username" 
+            :modelValue="credential.username" 
             label="Username:"
         />
 
@@ -20,7 +20,7 @@
                 @input="updatePassword"
                 id="credential-password" 
                 class="workspace-form__field" 
-                :value="password"
+                :modelValue="password"
                 :type="passwordVisible ? 'text' : 'password'"
                 label="Password:"
             />
@@ -31,28 +31,28 @@
         <CustomCheckbox
             @input="updateCredentialField($event, 'favorite')"
             class="workspace-form__field" 
-            :value="credential.favorite" 
+            :modelValue="credential.favorite" 
             label="Favorite" 
         />
         <CustomInput 
             @input="updateCredentialField($event, 'link')"
             id="credential-url" 
             class="workspace-form__field" 
-            :value="credential.link" 
+            :modelValue="credential.link" 
             label="Website URL:"
         />
         <CustomInput 
             @input="updateCredentialField($event, 'image')"
             id="credential-image" 
             class="workspace-form__field" 
-            :value="credential.image" 
+            :modelValue="credential.image" 
             label="Website image:"
         />
         <CustomInput 
             @input="updateCredentialField($event, 'notes')"
             id="credential-note" 
             class="workspace-form__field" 
-            :value="credential.notes" 
+            :modelValue="credential.notes" 
             label="Notes:"
         />
     </div>
@@ -91,9 +91,7 @@ export default {
             this.saveCredentialWithPassword()
         },
         saveCredentialWithPassword() {
-            if (this.savingTimeout) {
-                clearTimeout(this.savingTimeout)
-            }
+            clearTimeout(this.savingTimeout)
             this.savingTimeout = setTimeout(() => {
                 let data = {...this.credential}
                 if (this.password) {

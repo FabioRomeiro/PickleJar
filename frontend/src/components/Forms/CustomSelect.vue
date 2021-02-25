@@ -4,8 +4,8 @@
         <select 
             class="custom-select__select" 
             :id="id"
-            @input="$emit('input', $event.target.value)"
-            :value="value"
+            @input="$emit('update:modelValue', $event.target.value)"
+            :value="modelValue"
             :disabled="disabled"
         >
             <option v-for="option in options" :key="option.value" :value="option.value" :disabled="option.disabled">
@@ -21,7 +21,7 @@ export default {
     props: {
         label: String,
         id: String,
-        value: String,
+        modelValue: String,
         disabled: Boolean,
         emptyOption: {
             type: String,

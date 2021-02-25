@@ -6,11 +6,11 @@
             :id="id"
             class="custom-input__input"
             :class="`custom-input__input--${variant}`"
-            @input.stop="$emit('input', $event.target.value)"
-            @focus.stop="$emit('focus', $event.target.value)"
+            @input.stop="onInput"
+            @focus.stop="onFocus"
             :type="type" 
             :placeholder="placeholder"
-            :value="value"
+            :value="modelValue"
         />
         
         <i 
@@ -34,7 +34,16 @@ export default {
         label: String,
         placeholder: String,
         id: String,
-        value: [String, Number]
+        modelValue: [String, Number]
+    },
+    methods: {
+        onInput(event) {
+            this.$emit('update:modelValue', event.target.value)
+            this.$emit('input', event.target.value)
+        },
+        onFocus(event) {
+            this.$emit('focus', event.target.value)
+        }
     }
 }
 </script>

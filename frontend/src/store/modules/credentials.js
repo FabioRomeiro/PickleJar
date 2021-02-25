@@ -1,4 +1,5 @@
 import api from 'Apijs'
+import { UtilsMixins } from '@/helpers/Mixins'
 
 const state = () => ({
 	credentials: [],
@@ -76,10 +77,15 @@ const actions = {
 		commit('ADD_CREDENTIALS', credentials)
 		return getters.favoriteCredentials
     },
-    async getRecentAccessedCredentials({ state, commit, getters }, limit) {
+    async getRecentAccessedCredentials({ commit, getters }, limit) {
 		const credentials = await api.getRecentAccessedCredentials(limit)
 		commit('ADD_CREDENTIALS', credentials)
 		return getters.recentAccessedCredentials(limit)
+    },
+    async getCredentialByText({ commit, getters }, text) {
+		const credentials = await api.getCredentialByText(text)
+		commit('ADD_CREDENTIALS', credentials)
+		return getters.credentials
     },
     async getNumberOfCredentials({ state, commit }) {
 		const numberOfCredentials = await api.getNumberOfCredentials()
