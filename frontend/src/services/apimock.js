@@ -20,32 +20,21 @@ function mockasync (data) {
     })
 }
 
+const keepLoggedIn = true
+
 const api = {
     login(username, password) {
-        if (password) {
-            logged_user = {
-                username: username,
-                first_name: 'Mark',
-                last_name: 'Zuckerberg',
-                email: 'zuck@facebook.com',
-                notifications_enabled: true,
-                permissions:{
-                    ADMIN: username == 'admin',
-                    STAFF: username == 'admin',
-                }
-            };
-        }
         return mockasync(logged_user)
     },
     logout() {
-        logged_user = null;
         return mockasync({})
     },
     whoami() {
-        return mockasync(logged_user ? {
-            authenticated: true,
-            user: logged_user,
-        } : {authenticated: false}).then(res => res.data)
+        const iam = {authenticated: keepLoggedIn}
+        if (iam.authenticated) {
+            iam.user = logged_user
+        }
+        return mockasync(iam)
     },
 
     // Credentials

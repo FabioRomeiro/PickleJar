@@ -1,4 +1,4 @@
-import axios from '../helpers/axios';
+import axios from '../helpers/Http';
 
 export default function (ctx) {
     if(ctx.isServer){

@@ -29,7 +29,7 @@ export default {
     },
     computed: {
         user() {
-            return this.$store.getters['user/user']
+            return this.$store.getters['auth/currentUser']
         },
         userName() {
             return this.user.name
@@ -43,7 +43,7 @@ export default {
             this.menuIsOpen = !this.menuIsOpen;
         },
         logOut() {
-            this.$store.dispatch('user/logout');
+            this.$store.dispatch('auth/logout');
             this.$router.push('/wellcome');
         }
     },
