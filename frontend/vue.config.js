@@ -1,9 +1,8 @@
-const path = require("path");
+const path = require("path")
 
 const _apimock = process.env.API_MOCK == "1" || (process.env.API_MOCK == undefined && process.env.npm_lifecycle_event == "dev")
-const _apijs = _apimock ? "apimock.js" : "api.js";
-const pathToApi = path.resolve(__dirname, './src/services/' + _apijs);
-console.log(pathToApi);
+const _apijs = _apimock ? "apimock.js" : "api.js"
+const pathToApi = path.resolve(__dirname, './src/services/' + _apijs)
 
 module.exports = {
     runtimeCompiler: true,
@@ -16,12 +15,12 @@ module.exports = {
                     @import "@/assets/scss/_functions.scss";
                     @import "@/assets/scss/_fonts.scss";
                     @import "@/assets/scss/_icons.scss";
+                    @import "@/assets/scss/_global.scss";
                 `
             }
         }
     },
     chainWebpack: config => {
-        config.resolve.alias
-            .set('apijs', pathToApi);
+        config.resolve.alias.set('Apijs', pathToApi)
     }
 };

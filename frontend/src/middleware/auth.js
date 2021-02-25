@@ -1,4 +1,4 @@
-import AppApi from 'apijs'
+import AppApi from 'Apijs'
 
 export default function (ctx) {
     if(ctx.store.state.logged_user === undefined){
