@@ -3,18 +3,22 @@
         <Logo class="toolbar__logo" />
 
 		<CredentialSearch class="toolbar__search" />
+
+		<ProfileMenu class="toolbar__profile" />
 	</div>
 </template>
 
 <script>
 import Logo from '@/components/Logo/Logo.vue';
 import CredentialSearch from '@/components/Toolbar/CredentialSearch.vue';
+import ProfileMenu from '@/components/Toolbar/ProfileMenu.vue';
 
 export default {
 	name: 'Toolbar',
 	components: {
 		Logo,
-		CredentialSearch
+		CredentialSearch,
+		ProfileMenu
     }
 }
 </script>

@@ -2,7 +2,16 @@ import { credentials, passwords } from './mock/DB_Credentials.js'
 import { logs } from './mock/DB_Logs.js'
 import { UtilsMixins } from '@/helpers/Mixins'
 
-var logged_user = null;
+var logged_user = {
+    username: 'markzin',
+    name: 'Mark Zuckerberg',
+    email: 'zuck@facebook.com',
+    notifications_enabled: true,
+    permissions:{
+        ADMIN: false,
+        STAFF: false,
+    }
+};
 
 function mockasync (data) {
     console.log(data)
@@ -12,8 +21,8 @@ function mockasync (data) {
 }
 
 const api = {
-    login(username, password){
-        if(password){
+    login(username, password) {
+        if (password) {
             logged_user = {
                 username: username,
                 first_name: 'Mark',
@@ -26,17 +35,17 @@ const api = {
                 }
             };
         }
-        return mockasync(logged_user);
+        return mockasync(logged_user)
     },
-    logout(){
+    logout() {
         logged_user = null;
-        return mockasync({});
+        return mockasync({})
     },
-    whoami(){
+    whoami() {
         return mockasync(logged_user ? {
             authenticated: true,
             user: logged_user,
-        } : {authenticated: false});
+        } : {authenticated: false}).then(res => res.data)
     },
 
     // Credentials
