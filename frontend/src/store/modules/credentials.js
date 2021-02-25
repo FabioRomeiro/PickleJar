@@ -1,5 +1,4 @@
 import api from 'Apijs'
-import { UtilsMixins } from '@/helpers/Mixins'
 
 const state = () => ({
 	credentials: [],

@@ -1,4 +1,3 @@
-import api from 'Apijs'
 import store from '../index'
 
 const state = () => ({

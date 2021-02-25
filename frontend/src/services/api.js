@@ -1,4 +1,17 @@
-import axios from '../helpers/axios';
+import axios from '../helpers/Http';
+
+async function get(url, params){
+    return (await axios.get(url, {params: params})).data
+}
+
+async function post(url, params){
+    var fd = new FormData();
+    params = params || {}
+    Object.keys(params).map((k) => {
+        fd.append(k, params[k]);
+    })
+    return (await axios.post(url, fd)).data
+}
 
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 axios.defaults.xsrfCookieName = "csrftoken";
@@ -21,16 +34,3 @@ const api = {
     }
 }
 export default api;
-
-function get(url, params){
-    return axios.get(url, {params: params});
-}
-
-function post(url, params){
-    var fd = new FormData();
-    params = params || {}
-    Object.keys(params).map((k) => {
-        fd.append(k, params[k]);
-    })
-    return axios.post(url, fd);
-}

@@ -2,7 +2,7 @@ import Vuex from 'vuex'
 import credentials from './modules/credentials'
 import credentialWorkspace from './modules/credentialWorkspace'
 import logs from './modules/logs'
-import user from './modules/user'
+import auth from './modules/auth'
 
 const debug = process.env.NODE_ENV !== 'production'
 
@@ -11,7 +11,7 @@ export default new Vuex.Store({
     credentials,
     credentialWorkspace,
     logs,
-    user
+    auth
   },
   strict: debug
 })
