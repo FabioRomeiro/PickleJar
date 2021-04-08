@@ -4,7 +4,6 @@ from django.http.response import HttpResponse, JsonResponse
 from django.contrib import auth
 from commons.django_model_utils import get_or_none
 from commons.django_views_utils import ajax_login_required
-from core.service import log_svc, todo_svc
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -45,14 +44,12 @@ def whoami(request):
 
 @ajax_login_required
 def add_todo(request):
-    todo = todo_svc.add_todo(request.POST['new_task'])
-    return JsonResponse(todo)
+    return JsonResponse({})
 
 
 @ajax_login_required
 def list_todos(request):
-    todos = todo_svc.list_todos()
-    return JsonResponse({'todos': todos})
+    return JsonResponse({'todos': []})
 
 
 def _user2dict(user):
