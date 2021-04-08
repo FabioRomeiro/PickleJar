@@ -34,8 +34,7 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  if (to.meta.authenticationRequired && !store.getters['auth/loggedIn']) {
-    console.log('ENTROU')
+  if (to.meta.authenticationRequired && store.getters['auth/currentUser'] === undefined) {
     await store.dispatch('auth/whoami')
   }
   next()

@@ -1,39 +1,25 @@
 import axios from 'axios'
-import store from '@/store/index'
-
-axios.defaults.headers.common.tabid = (Math.random() * 1e8).toFixed(0)
 
 const http = axios.create({
-	xsrfHeaderName: 'X-CSRFToken',
-	xsrfCookieName: 'csrftoken',
-	baseURL: process.env.API_BASE_URL,
-	headers: {
-		'Accept': 'application/json',
-		'Content': 'application/json',
-	}
+	baseUrl: process.env.BASE_URL
 })
 
-http.interceptors.request.use(config => { 
-	const token = store.getters['auth/token']
-	if (token) {
-		config.headers.Authorization = `Bearer ${token}`
-	}
+async function _get(url, params){
+	return (await http.get(url, {params: params})).data
+}
 
-	return config 
-}, Promise.reject)
-
-let isHandlingExpiredToken = false
-http.interceptors.response.use(response => response, error => {
-	if (error.response && error.response.status !== 403) {
-		return new Promise((resolve, reject) => {
-			reject(error)
-		})
-  	}
-
-	return new Promise((resolve, reject) => {
-		isHandlingExpiredToken = false
-		reject(error)
+async function _post(url, params){
+	var fd = new FormData();
+	params = params || {}
+	Object.keys(params).map((k) => {
+			fd.append(k, params[k]);
 	})
-})
+	return (await http.post(url, fd)).data
+}
 
-export default http
+http.defaults.xsrfHeaderName = "X-CSRFToken";
+http.defaults.xsrfCookieName = "csrftoken";
+
+
+export const post = _post
+export const get = _get

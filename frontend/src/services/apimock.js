@@ -20,17 +20,19 @@ function mockasync (data) {
     })
 }
 
-const keepLoggedIn = true
+let loggedIn = true
 
 const api = {
     login(username, password) {
+        loggedIn = true
         return mockasync(logged_user)
     },
     logout() {
+        loggedIn = false
         return mockasync({})
     },
     whoami() {
-        const iam = {authenticated: keepLoggedIn}
+        const iam = {authenticated: loggedIn}
         if (iam.authenticated) {
             iam.user = logged_user
         }

@@ -19,7 +19,12 @@ export default {
 		Logo,
 		CredentialSearch,
 		ProfileMenu
-    }
+	},
+	computed: {
+		isLoggedIn () {
+			return this.$store.getters['auth/loggedIn']
+		},
+	}
 }
 </script>
 

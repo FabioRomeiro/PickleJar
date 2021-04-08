@@ -1,8 +1,7 @@
 import api from 'Apijs'
 
 const state = () => ({
-    currentUser: null,
-    token: undefined
+    currentUser: undefined
 })
 
 const mutations = {
@@ -17,17 +16,15 @@ const getters = {
     },
     loggedIn (state) {
         return !!(state.currentUser && state.currentUser.permissions)
-    },
-    token (state) {
-        return state.token
     }
 }
 
 const actions = {
     async whoami ({ commit }) {
         const res = await api.whoami()
-        if (res.data.authenticated) {
-            commit('SET_CURRENT_USER', res.data.user)
+        console.log(res)
+        if (res.authenticated) {
+            commit('SET_CURRENT_USER', res.user)
         } else {
             commit('SET_CURRENT_USER', null)
         }
