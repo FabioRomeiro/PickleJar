@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class ActivityLog(models.Model):
     type = models.CharField(max_length=64)
     logged_user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
@@ -29,15 +30,21 @@ class Credential(models.Model):
     name = models.CharField(max_length=100)
     username = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
-    image = models.CharField(null=True, blank=True, max_length=500)
-    link = models.CharField(null=True, blank=True, max_length=255)
-    notes = models.TextField(null=True, blank=True)
+    image = models.CharField(blank=True, max_length=500, default='')
+    link = models.CharField(blank=True, max_length=255, default='')
+    notes = models.TextField(blank=True, default='')
     favorite = models.BooleanField(default=False)
-    status = models.CharField(null=True, blank=True, max_length=15, choices=Status.choices)
+    status = models.CharField(blank=True, max_length=15, choices=Status.choices, default=Status.OBVIOUS)
     active = models.BooleanField(default=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField('criado em', auto_now_add=True)
     last_updated = models.DateTimeField('atualizado em', auto_now=True)
     last_accessed = models.DateTimeField('acessado em', auto_now=True)
+
+    def __str__(self):
+        if self.link:
+            return f'{self.name} - {self.link}'
+        return self.name
 
     def to_dict_json(self):
         return {
@@ -48,8 +55,10 @@ class Credential(models.Model):
             'link': self.link,
             'notes': self.notes,
             'favorite': self.favorite,
-            'status': self.status,
-            'created_at': self.created_at,
-            'last_updated': self.last_updated,
-            'last_accessed': self.last_accessed
+            'status': str(self.status),
+            'created_at': str(self.created_at),
+            'last_updated': str(self.last_updated),
+            'last_accessed': str(self.last_accessed)
         }
+
+    __dictjson__ = to_dict_json

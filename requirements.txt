@@ -4,3 +4,4 @@ psycopg2==2.8.6
 python-dateutil==2.8.1
 coverage==5.5
 tblib==1.7.0
+model_bakery==1.2.1

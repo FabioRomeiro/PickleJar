@@ -5,6 +5,7 @@ from django.contrib import auth
 from commons.django_model_utils import get_or_none
 from commons.django_views_utils import ajax_login_required
 from django.views.decorators.csrf import csrf_exempt
+from core.service import credential_svc, log_svc
 
 
 def dapau(request):
@@ -40,6 +41,33 @@ def whoami(request):
         'authenticated': True,
     } if request.user.is_authenticated() else {'authenticated': False}
     return JsonResponse(i_am)
+
+
+@ajax_login_required
+def save_credential(request):
+    credential = request.POST.dict()
+    user = request.user
+    credential_svc.save_credential(credential, user)
+    return JsonResponse({})
+
+
+@ajax_login_required
+def delete_credential(request):
+    id = request.POST.get('id')
+    user = request.user
+    credential_svc.delete_credential(id, user)
+    return JsonResponse({})
+
+
+@ajax_login_required
+def list_credentials(request):
+    params = request.GET.dict()
+    user = request.user
+    params['owner'] = user
+    result = credential_svc.list_credentials(**params)
+    if params.get('count_only'):
+        return JsonResponse({'count_credentials': result})
+    return JsonResponse({'credentials': result})
 
 
 @ajax_login_required
