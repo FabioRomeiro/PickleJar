@@ -16,7 +16,7 @@ var logged_user = {
 function mockasync (data) {
     console.log(data)
     return new Promise((resolve) => {
-        setTimeout(() => resolve({data: data}), 600)
+        setTimeout(() => resolve(data), 600)
     })
 }
 
@@ -56,10 +56,10 @@ const api = {
     },
     getRecentAccessedCredentials(limit=5) {
         function _sortLastAccessed(a, b) {
-            if (a.last_access > b.last_access) {
+            if (a.last_accessed > b.last_accessed) {
                 return 1;
             }
-            if (a.last_access < b.last_access) {
+            if (a.last_accessed < b.last_accessed) {
                 return -1;
             }
             return 0

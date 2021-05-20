@@ -14,7 +14,7 @@
 
         <div class="workspace-credential-presentation__info-field workspace-credential-presentation__info-field--horizontal">
             <span class="field-label">Last access:</span>
-            <span class="field-value">{{ accessDate(credential.last_access) }}</span>
+            <span class="field-value">{{ accessDate(credential.last_accessed) }}</span>
         </div>
 
         <div class="workspace-credential-presentation__info-field">

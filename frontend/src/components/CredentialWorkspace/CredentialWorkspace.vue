@@ -92,20 +92,17 @@ export default {
     methods: {
         async createCredentialAndOpenWorkspace() {
             let credential = await this.$store.dispatch('credentials/saveCredential', {
-                credential: {
-                    name: '',
-                    username: '',
-                    link: '',
-                    image: '',
-                    favorite: false,
-                    notes: ''
-                },
+                name: '',
+                username: '',
                 password: ''
             })
             credential = this.$store.getters['credentials/credentialById'](credential.id)
             this.openWorkspaceToEdit(credential)
         },
-        openWorkspaceToEdit(credential) {
+        async openWorkspaceToEdit(credential) {
+            let password = await this.$store.dispatch('credentials/getCredentialPassword', credential.id)
+            console.log(password)
+            this.$store.commit('credentialWorkspace/SET_PASSWORD', password)
             this.$store.commit('credentialWorkspace/OPEN_WORKSPACE', {
                 credential,
                 editMode: true

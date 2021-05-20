@@ -24,6 +24,12 @@ const routes = [
         component: () => import(/* webpackChunkName: "logs" */ "../views/Home/Logs.vue")
 			}
     ]
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import(/* webpackChunkName: "login" */ "../views/Login.vue"),
+    meta: { authenticationRequired: false }
   }
 ];
 
@@ -36,6 +42,9 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   if (to.meta.authenticationRequired && store.getters['auth/currentUser'] === undefined) {
     await store.dispatch('auth/whoami')
+    if (!store.getters['auth/currentUser']) {
+      next({ name: 'Login' })
+    }
   }
   next()
 })

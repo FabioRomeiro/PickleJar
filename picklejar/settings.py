@@ -168,6 +168,9 @@ LOGGING = {
     }
 }
 
+EXPLORER_CONNECTIONS = {'default': 'default'}
+EXPLORER_DEFAULT_CONNECTION = 'default'
+
 if DEBUG:
     # make all loggers use the console.
     for logger in LOGGING['loggers']:
