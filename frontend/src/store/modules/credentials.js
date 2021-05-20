@@ -47,10 +47,10 @@ const getters = {
 	},
 	recentAccessedCredentials(state) {
 		function _sortLastAccessed(a, b) {
-            if (a.last_access > b.last_access) {
+            if (a.last_accessed > b.last_accessed) {
                 return 1;
             }
-            if (a.last_access < b.last_access) {
+            if (a.last_accessed < b.last_accessed) {
                 return -1;
             }
             return 0
@@ -67,52 +67,55 @@ const getters = {
 
 const actions = {
 	async getAllCredentials({ commit, getters }) {
-		const credentials = await api.getAllCredentials()
-		commit('ADD_CREDENTIALS', credentials)
+		const data = await api.getAllCredentials()
+		commit('ADD_CREDENTIALS', data.credentials)
 		return getters.credentials
-    },
+	},
 	async getFavoriteCredentials({ commit, getters }) {
-		const credentials = await api.getFavoriteCredentials()
-		commit('ADD_CREDENTIALS', credentials)
+		const data = await api.getFavoriteCredentials()
+		commit('ADD_CREDENTIALS', data.credentials)
 		return getters.favoriteCredentials
-    },
-    async getRecentAccessedCredentials({ commit, getters }, limit) {
-		const credentials = await api.getRecentAccessedCredentials(limit)
-		commit('ADD_CREDENTIALS', credentials)
+	},
+	async getRecentAccessedCredentials({ commit, getters }, limit) {
+		const data = await api.getRecentAccessedCredentials(limit)
+		commit('ADD_CREDENTIALS', data.credentials)
 		return getters.recentAccessedCredentials(limit)
-    },
-    async getCredentialByText({ commit, getters }, text) {
-		const credentials = await api.getCredentialByText(text)
-		commit('ADD_CREDENTIALS', credentials)
+	},
+	async getCredentialByText({ commit, getters }, text) {
+		const data = await api.getCredentialByText(text)
+		commit('ADD_CREDENTIALS', data.credentials)
 		return getters.credentials
-    },
-    async getNumberOfCredentials({ state, commit }) {
-		const numberOfCredentials = await api.getNumberOfCredentials()
-		commit('SET_NUMBER_OF_CREDENTIALS', numberOfCredentials)
+	},
+	async getNumberOfCredentials({ state, commit }) {
+		const data = await api.getNumberOfCredentials()
+		commit('SET_NUMBER_OF_CREDENTIALS', data.count_credentials)
 		return state.numberOfCredentials
-    },
-    async toggleCredentialFavorite({ commit }, credential) {
+	},
+	async toggleCredentialFavorite({ commit }, credential) {
 		let newState = !credential.favorite
-		commit('SET_CREDENTIAL_FAVORITE', {credential, favoriteState: newState})
 		try {
-			newState = await api.toggleCredentialFavorite(credential.id)
+			await api.toggleCredentialFavorite(credential)
+			commit('SET_CREDENTIAL_FAVORITE', {credential, favoriteState: newState})
 		}
 		catch(e) {
-			commit('SET_CREDENTIAL_FAVORITE', {credential, favoriteState: credential.favorite})
+			console.log(e)
+			newState = credential.favorite
 		}
 		return newState
 	},
 	async getCredentialPassword(context, credentialId) {
-		return await api.getCredentialPassword(credentialId)
+		const { password } = await api.getCredentialPassword(credentialId)
+		return password
 	},
 	async deleteCredential({ state, commit }, credential) {
 		await api.deleteCredentialPassword(credential.id)
 		commit('REMOVE_CREDENTIAL', credential)
 	},
 	async saveCredential({ commit, getters }, credential) {
-		const newCredential = await api.saveCredential(credential)
-		commit('ADD_CREDENTIALS', [newCredential])
-		return getters.credentialById(newCredential.id)
+		const data = await api.saveCredential(credential)
+		const updatedCredential = data.credential
+		commit('ADD_CREDENTIALS', [updatedCredential])
+		return getters.credentialById(updatedCredential.id)
 	}
 }
 

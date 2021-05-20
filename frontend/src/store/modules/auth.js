@@ -21,10 +21,9 @@ const getters = {
 
 const actions = {
     async whoami ({ commit }) {
-        const res = await api.whoami()
-        console.log(res)
-        if (res.authenticated) {
-            commit('SET_CURRENT_USER', res.user)
+        const data = await api.whoami()
+        if (data.authenticated) {
+            commit('SET_CURRENT_USER', data.user)
         } else {
             commit('SET_CURRENT_USER', null)
         }

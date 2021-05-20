@@ -1,15 +1,19 @@
 from django.db.models import Q
 
 from core.models import Credential
+from core.service import log_svc
 
 
 def save_credential(credential_dict, owner):
     id = credential_dict.get('id')
+    credential_dict['favorite'] = credential_dict.get('favorite') == 'true'
     if id:
         credential = Credential.objects.get(pk=id)
         credential.name = credential_dict.get('name', '')
         credential.username = credential_dict.get('username', '')
-        credential.password = credential_dict.get('password', '')
+        new_password = credential_dict.get('password')
+        if new_password:
+            credential.password = new_password
         credential.image = credential_dict.get('image', '')
         credential.link = credential_dict.get('link', '')
         credential.notes = credential_dict.get('notes', '')
@@ -20,18 +24,24 @@ def save_credential(credential_dict, owner):
         # credential.last_updated = credential_dict.get('last_updated')
         # credential.last_accessed = credential_dict.get('last_accessed')
         credential.save()
+        log_svc.log_credential_edit(owner, credential)
     else:
         credential_dict.update({'owner': owner})
-        Credential.objects.create(**credential_dict)
+        credential = Credential.objects.create(**credential_dict)
+        log_svc.log_credential_creation(owner, credential)
+    return credential.to_dict_json()
 
 
 def delete_credential(id, owner):
-    Credential.objects.filter(pk=id, owner=owner).delete()
+    credential = Credential.objects.filter(pk=id, owner=owner)
+    if credential.exists():
+        log_svc.log_credential_delete(owner, credential[0])
+        credential.update(active=False)
 
 
 def list_credentials(owner=None, search_text='', order_by='-created_at', favorite_only=False, count_only=False,
                      descending=False):
-    credentials_qs = Credential.objects.filter(owner=owner).order_by(order_by)
+    credentials_qs = Credential.objects.filter(owner=owner, active=True).order_by(order_by)
 
     if favorite_only:
         credentials_qs = credentials_qs.filter(favorite=True)
@@ -44,3 +54,10 @@ def list_credentials(owner=None, search_text='', order_by='-created_at', favorit
         return credentials_qs.count()
 
     return [credential.to_dict_json() for credential in credentials_qs]
+
+
+def get_password(owner=None, credential_id=None):
+    credential = Credential.objects.get(owner=owner, pk=credential_id, active=True)
+    log_svc.log_password_access(owner, credential)
+    return credential.password
+

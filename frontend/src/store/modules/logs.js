@@ -6,17 +6,7 @@ const state = () => ({
 
 const mutations = {
 	ADD_LOGS(state, logs) {
-		logs.forEach(log => {
-			const stateLog = state.logs.find(stateLog => stateLog.id === log.id)
-			if (stateLog) {
-				Object.keys(state.logs).forEach(key => {
-					stateLog[key] = log[key]
-				})
-			}
-			else {
-				state.logs.push(log)
-			}
-		})
+		state.logs = logs
 	}
 }
 
@@ -28,7 +18,7 @@ const getters = {
 
 const actions = {
 	async getAllLogs({ commit, getters }) {
-		const logs = await api.getAllLogs()
+		const { logs } = await api.getAllLogs()
 		commit('ADD_LOGS', logs)
 		return getters.logs
     }

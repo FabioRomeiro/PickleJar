@@ -24,9 +24,9 @@
                         {{ credentialName }}
                     </span>
                 </span>
-                <span class="access" :class="{ 'has-content': !!credential.last_access }">
-                    <span v-if="credential.last_access">
-                        Accessed at {{ accessDate(credential.last_access) }}
+                <span class="access" :class="{ 'has-content': !!credential.last_accessed }">
+                    <span v-if="credential.last_accessed">
+                        Accessed at {{ accessDate(credential.last_accessed) }}
                     </span>
                 </span>
             </div>
@@ -48,7 +48,7 @@
             >
                 <i class="material-icons icon">open_in_new</i>
             </a>
-            <a href @click.prevent="deletePassword" class="credential-card__action credential-card__action--delete" title="Delete password">
+            <a href @click.prevent="deleteCredential" class="credential-card__action credential-card__action--delete" title="Delete password">
                 <i class="material-icons icon">delete</i>
             </a>
         </div>
@@ -57,7 +57,7 @@
 
 <script>
 import ImageReplace from '@/components/Utils/ImageReplace.vue';
-import { UtilsMixins } from '@/helpers/Mixins.js';
+import { UtilsMixins, CredentialMixins } from '@/helpers/Mixins.js';
 
 export default {
     name: 'CredentialCard',
@@ -71,7 +71,7 @@ export default {
     components: {
         ImageReplace
     },
-    mixins: [UtilsMixins],
+    mixins: [CredentialMixins, UtilsMixins],
     computed: {
         credentialName() {
             if (this.credential.name) {
@@ -84,14 +84,13 @@ export default {
         }
     },
     methods: {
-        deletePassword() {
-            this.$store.dispatch('credentials/deletePassword', this.credential.id)
+        deleteCredential() {
+            this.$store.dispatch('credentials/deleteCredential', this.credential)
         },
         togglePasswordFavoriteState() {
             if (this.mock) {
                 return
             }
-
             this.toggleFavorite(this.credential)
         },
         openPasswordWorkspace(mode) {

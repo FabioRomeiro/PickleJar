@@ -11,7 +11,7 @@ class TestListCredentials(TestCase):
     def setUpTestData(cls):
         cls.user = users.create_user()
         cls.credential_whatsapp = baker.make(Credential, name='Whatsapp 2', favorite=True, owner=cls.user)
-        cls.credential_facebook = baker.make(Credential, name='Facebook', owner=cls.user)
+        cls.credential_facebook = baker.make(Credential, name='Facebook', password='123456', owner=cls.user)
 
     def setUp(self):
         self.client = Client()
@@ -59,3 +59,10 @@ class TestListCredentials(TestCase):
         data = response.json()
         self.assertIn('count_credentials', data)
         self.assertEqual(data['count_credentials'], 2)
+
+    def test_get_password(self):
+        response = self.client.get('/api/credentials/password', {'credential_id': self.credential_facebook.pk})
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertIn('password', data)
+        self.assertEqual(data['password'], self.credential_facebook.password)

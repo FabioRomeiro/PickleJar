@@ -46,8 +46,14 @@
                             {{ getReadableUseragent(log.useragent) }}
                         </td>
                         <td class="logs__col logs__col--credential">
-                            <a href @click.prevent="openCredential(log.credential_id)" class="item-credential" v-if="log.credential_id">
-                                {{ getCredential(log.credential_id).name }}
+                            <a
+                                v-if="log.credential"
+                                href
+                                @click.prevent="openCredential(log.credential)"
+                                class="item-credential"
+                                :class="{'item-credential-deleted': !log.credential.active}"
+                            >
+                                {{ log.credential.name }}
                             </a>
                         </td>
                     </tr>
@@ -156,11 +162,6 @@ export default {
                     disabled: !this.hasLogWithLogType(logTypes.CREDENTIAL_DELETE)
                 },
                 { 
-                    value: logTypes.CREDENTIAL_COPY, 
-                    label: 'Credential copy', 
-                    disabled: !this.hasLogWithLogType(logTypes.CREDENTIAL_COPY)
-                },
-                { 
                     value: logTypes.ACCOUNT_ACCESS, 
                     label: 'Account access', 
                     disabled: !this.hasLogWithLogType(logTypes.ACCOUNT_ACCESS)
@@ -183,8 +184,6 @@ export default {
                     return 'Logged out of the account'
                 case logTypes.CREDENTIAL_DELETE:
                     return 'Deleted credential'
-                case logTypes.CREDENTIAL_COPY:
-                    return 'Copied the credential\' password to the clipboard'
                 case logTypes.ACCOUNT_ACCESS:
                     return 'Accessed the account using a browser'
             }
@@ -202,8 +201,11 @@ export default {
         getCredential(credentialId) {
             return this.$store.getters['credentials/credentialById'](credentialId)
         },
-        openCredential(credentialId) {
-            this.$eventBus.emit(this.$eventKeys.VIEW_CREDENTIAL, this.getCredential(credentialId));
+        openCredential(credential) {
+            if (!credential.active) {
+                return
+            }
+            this.$eventBus.emit(this.$eventKeys.VIEW_CREDENTIAL, this.getCredential(credential.id));
         }
     },
     data() {
@@ -238,6 +240,16 @@ export default {
 
             &--time {
                 max-width: 20%;
+            }
+
+            &--credential {
+                .item-credential {
+                    &.item-credential-deleted {
+                        color: $color-gray-dark;
+                        cursor: default;
+                        pointer-events: none;
+                    }
+                }
             }
         }
     }

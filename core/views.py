@@ -39,7 +39,7 @@ def whoami(request):
     i_am = {
         'user': _user2dict(request.user),
         'authenticated': True,
-    } if request.user.is_authenticated() else {'authenticated': False}
+    } if request.user.is_authenticated else {'authenticated': False}
     return JsonResponse(i_am)
 
 
@@ -47,8 +47,8 @@ def whoami(request):
 def save_credential(request):
     credential = request.POST.dict()
     user = request.user
-    credential_svc.save_credential(credential, user)
-    return JsonResponse({})
+    updated_credential = credential_svc.save_credential(credential, user)
+    return JsonResponse({'credential': updated_credential})
 
 
 @ajax_login_required
@@ -71,13 +71,17 @@ def list_credentials(request):
 
 
 @ajax_login_required
-def add_todo(request):
-    return JsonResponse({})
+def get_password(request):
+    params = request.GET.dict()
+    user = request.user
+    params['owner'] = user
+    password = credential_svc.get_password(**params)
+    return JsonResponse({'password': password})
 
 
-@ajax_login_required
-def list_todos(request):
-    return JsonResponse({'todos': []})
+def list_logs(request):
+    logs = log_svc.list_logs(request.user)
+    return JsonResponse({'logs': logs})
 
 
 def _user2dict(user):
