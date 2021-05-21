@@ -20,7 +20,7 @@ export default {
 	computed: {
 		inputStyle () {
 			return {
-				backgroundImage: `url('https://picsum.photos/500/500')` ,
+				backgroundImage: `url(${this.passimage})` ,
 				width: `${this.gridSize}px`,
 				height: `${this.gridSize}px`
 			}

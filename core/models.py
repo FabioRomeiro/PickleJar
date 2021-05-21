@@ -63,3 +63,19 @@ class Credential(models.Model):
         }
 
     __dictjson__ = to_dict_json
+
+
+class PassImage(models.Model):
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
+    image_url = models.CharField(max_length=500)
+
+    def __str__(self):
+        return self.image_url
+
+    def to_dict_json(self):
+        return {
+            'user_email': self.user.email,
+            'image_url': self.image_url
+        }
+
+    __dictjson__ = to_dict_json

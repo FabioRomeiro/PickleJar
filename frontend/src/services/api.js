@@ -52,6 +52,13 @@ const api = {
     // Logs
     getAllLogs() {
         return get('/api/logs')
+    },
+
+    // PassImage
+    getPassImage (userEmail) {
+        return get('/api/passimage', {
+            user_email: userEmail
+        })
     }
 }
 export default api;

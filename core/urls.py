@@ -13,6 +13,9 @@ urlpatterns = [
     path('api/credentials/password', views.get_password),
     path('api/credentials', views.list_credentials),
 
+    # PassImage
+    path('api/passimage', views.get_passimage_url),
+
     # Logs
     path('api/logs', views.list_logs),
 ]

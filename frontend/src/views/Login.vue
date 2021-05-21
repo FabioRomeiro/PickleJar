@@ -5,10 +5,14 @@
 				<CustomInput
 					type="email"
 					label="Enter your e-mail"
+					v-model="email"
 				/>
+				<CustomButton @click="loadImagepass">
+					Go
+				</CustomButton>
 			</div>
-			<div class="login-page__passimage">
-				<GraphicalInput v-model="passimageData"/>
+			<div class="login-page__passimage" v-if="passimageUrl">
+				<GraphicalInput v-model="passimageData" :passimage="passimageUrl" />
 			</div>
 		</div>
 	</div>
@@ -17,21 +21,29 @@
 <script>
 import api from 'Apijs'
 import CustomInput from '@/components/Forms/CustomInput'
+import CustomButton from '@/components/Forms/CustomButton'
 import GraphicalInput from '@/components/Forms/GraphicalInput'
 
 export default {
 	components: {
 		CustomInput,
-		GraphicalInput
+		GraphicalInput,
+		CustomButton
 	},
 	methods: {
 		entrar() {
 			api.login('teste', 'um2345678')
+		},
+		async loadImagepass () {
+			const { image_url } = await api.getPassImage(this.email)
+			this.passimageUrl = image_url
 		}
 	},
 	data () {
 		return {
-			passimageData: {}
+			passimageData: {},
+			passimageUrl: null,
+			email: ''
 		}
 	}
 }

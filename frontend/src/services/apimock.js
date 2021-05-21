@@ -1,5 +1,6 @@
-import { credentials, passwords } from './mock/DB_Credentials.js'
-import { logs } from './mock/DB_Logs.js'
+import { credentials, passwords } from './mock/DB_Credentials'
+import { logs } from './mock/DB_Logs'
+import { image_url } from './mock/DB_PassImage'
 import { UtilsMixins } from '@/helpers/Mixins'
 
 var logged_user = {
@@ -103,6 +104,11 @@ const api = {
     // Logs
     getAllLogs() {
         return mockasync(logs).then(res => res.data)
+    },
+
+    // PassImage
+    getPassImage (userEmail) {
+        return mockasync({ image_url }).then(res => res.data)
     }
 };
 

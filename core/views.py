@@ -5,7 +5,7 @@ from django.contrib import auth
 from commons.django_model_utils import get_or_none
 from commons.django_views_utils import ajax_login_required
 from django.views.decorators.csrf import csrf_exempt
-from core.service import credential_svc, log_svc
+from core.service import credential_svc, log_svc, passimage_svc
 
 
 def dapau(request):
@@ -79,6 +79,13 @@ def get_password(request):
     return JsonResponse({'password': password})
 
 
+def get_passimage_url(request):
+    params = request.GET.dict()
+    passimage_url = passimage_svc.get_passimage_url(**params)
+    return JsonResponse({'image_url': passimage_url})
+
+
+@ajax_login_required
 def list_logs(request):
     logs = log_svc.list_logs(request.user)
     return JsonResponse({'logs': logs})

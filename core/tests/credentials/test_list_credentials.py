@@ -16,7 +16,7 @@ class TestListCredentials(TestCase):
     def setUp(self):
         self.client = Client()
         self.client.force_login(self.user)
-    
+
     def test_list_credentials(self):
         response = self.client.get('/api/credentials')
         self.assertEqual(response.status_code, 200)
