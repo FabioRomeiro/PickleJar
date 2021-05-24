@@ -9,8 +9,12 @@ https://docs.djangoproject.com/en/2.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
-
+import base64
 import os
+
+from cryptography.fernet import Fernet
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,6 +30,24 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'a_secret_key')
 DEBUG = os.getenv('DJANGO_DEBUG', '1') == '1'
 
 ALLOWED_HOSTS = list({'localhost'} | set(os.getenv('DJANGO_ALLOWED_HOSTS', 'localhost').split(',')))
+
+kdf = PBKDF2HMAC(
+    algorithm=hashes.SHA256(),
+    length=32,
+    salt=os.urandom(16),
+    iterations=100000
+)
+key = base64.urlsafe_b64encode(kdf.derive(os.getenv('MASTER_KEY', 'master_key').encode()))
+MASTER_KEY = Fernet(key)
+
+kdf = PBKDF2HMAC(
+    algorithm=hashes.SHA256(),
+    length=32,
+    salt=os.urandom(16),
+    iterations=100000
+)
+key = base64.urlsafe_b64encode(kdf.derive(os.getenv('CREDENTIALS_KEY', 'credentials_key').encode()))
+CREDENTIALS_KEY = Fernet(key)
 
 
 # Application definition
@@ -104,6 +126,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
+AUTH_USER_MODEL = 'core.User'
 
 
 # Internationalization

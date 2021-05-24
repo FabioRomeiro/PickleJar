@@ -20,7 +20,7 @@ export default {
 	computed: {
 		inputStyle () {
 			return {
-				backgroundImage: `url(${this.passimage})` ,
+				backgroundImage: `url(${this.passimage})`,
 				width: `${this.gridSize}px`,
 				height: `${this.gridSize}px`
 			}
@@ -80,10 +80,12 @@ export default {
 			}, this.animationDuration + 100)
 		},
 		updateValue () {
-			this.$emit('update:modelValue', {
+			const data = {
 				inputs: this.inputData,
 				gridSize: this.gridSize
-			})
+			}
+			this.$emit('update:modelValue', data)
+			this.$emit('update', data)
 		},
 		resetData () {
 			this.inputsCount = 0

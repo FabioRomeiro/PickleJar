@@ -1,7 +1,6 @@
 from core.models import User
+from core.service.auth_svc import encrypt_coords
 
 
-def create_user(username='arthur_morgan', first_name='Arthur', last_name='Morgan', email='arthur@westmail.com',
-                password='lenny'):
-    return User.objects.create_user(username=username, first_name=first_name, last_name=last_name, email=email,
-                                    password=password)
+def create_user(email='arthur@westmail.com', coords=((0.4, 0.4), (0.6, 0.6), (0.8, 0.8), (1.0, 1.0), (0.4, 0.4))):
+    return User.objects.create(email=email, password=encrypt_coords(coords))

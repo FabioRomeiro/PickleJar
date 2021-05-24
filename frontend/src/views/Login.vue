@@ -12,7 +12,7 @@
 				</CustomButton>
 			</div>
 			<div class="login-page__passimage" v-if="passimageUrl">
-				<GraphicalInput v-model="passimageData" :passimage="passimageUrl" />
+				<GraphicalInput v-model="passimageData" :passimage="passimageUrl" @update="entrar" />
 			</div>
 		</div>
 	</div>
@@ -31,8 +31,8 @@ export default {
 		CustomButton
 	},
 	methods: {
-		entrar() {
-			api.login('teste', 'um2345678')
+		entrar () {
+			api.login(this.email, this.passimageData)
 		},
 		async loadImagepass () {
 			const { image_url } = await api.getPassImage(this.email)

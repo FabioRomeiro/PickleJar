@@ -1,8 +1,14 @@
 import { get, post } from '../helpers/Http';
 
 const api = {
-    login(username, password){
-        return post('/api/login', {username: username, password: password});
+    login(email, data){
+        return post('/api/login', {
+            email,
+            pass_data: JSON.stringify({
+                grid_size: data.gridSize,
+                coords: data.inputs
+            })
+        })
     },
     logout(){
         return post('/api/logout');

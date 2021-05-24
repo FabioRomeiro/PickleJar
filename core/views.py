@@ -5,7 +5,7 @@ from django.contrib import auth
 from commons.django_model_utils import get_or_none
 from commons.django_views_utils import ajax_login_required
 from django.views.decorators.csrf import csrf_exempt
-from core.service import credential_svc, log_svc, passimage_svc
+from core.service import credential_svc, log_svc, passimage_svc, auth_svc
 
 
 def dapau(request):
@@ -14,9 +14,9 @@ def dapau(request):
 
 @csrf_exempt
 def login(request):
-    username = request.POST['username']
-    password = request.POST['password']
-    user = auth.authenticate(username=username, password=password)
+    email = request.POST['email']
+    pass_data = json.loads(request.POST['pass_data'])
+    user = auth_svc.login(email, pass_data)
     user_dict = None
     if user is not None:
         if user.is_active:
@@ -94,14 +94,6 @@ def list_logs(request):
 def _user2dict(user):
     d = {
         'id': user.id,
-        'name': user.get_full_name(),
-        'username': user.username,
-        'first_name': user.first_name,
-        'last_name': user.last_name,
-        'email': user.email,
-        'permissions': {
-            'ADMIN': user.is_superuser,
-            'STAFF': user.is_staff,
-        }
+        'email': user.email
     }
     return d
