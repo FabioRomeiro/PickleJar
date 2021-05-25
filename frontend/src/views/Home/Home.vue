@@ -13,7 +13,7 @@ import Toolbar from '@/components/Toolbar/Toolbar.vue'
 import CredentialWorkspace from '@/components/CredentialWorkspace/CredentialWorkspace.vue'
 
 export default {
-	name: "Home",
+	name: 'Home',
 	components: {
 		Toolbar,
 		CredentialWorkspace

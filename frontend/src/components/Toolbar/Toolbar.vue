@@ -1,6 +1,6 @@
 <template>
 	<div class="toolbar">
-        <Logo class="toolbar__logo" />
+		<Logo class="toolbar__logo" />
 
 		<CredentialSearch class="toolbar__search" />
 

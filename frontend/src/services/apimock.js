@@ -45,18 +45,18 @@ const api = {
 
     // Credentials
     getAllCredentials() {
-        return mockasync(credentials).then(res => res.data)
+        return mockasync({ credentials })
     },
     getFavoriteCredentials() {
-        return mockasync(credentials.filter(credential => credential.favorite)).then(res => res.data)
+        return mockasync({ credentials: credentials.filter(credential => credential.favorite) })
     },
     getCredentialByText(text) {
-        return mockasync(credentials.filter(credential => {
+        return mockasync({ credentials: credentials.filter(credential => {
 			const searchText = credential.name + credential.username + credential.status + credential.link
 			const normalizedText = UtilsMixins.methods.normalizeText(searchText)
 			const normalizedSearch = UtilsMixins.methods.normalizeText(text)
 			return normalizedText.includes(normalizedSearch)
-		})).then(res => res.data)
+		}) })
     },
     getRecentAccessedCredentials(limit=5) {
         function _sortLastAccessed(a, b) {
@@ -69,18 +69,17 @@ const api = {
             return 0
         }
         let orderedCredentials = credentials.sort(_sortLastAccessed).slice(0, limit)
-        return mockasync(orderedCredentials).then(res => res.data)
+        return mockasync({ credentials:  orderedCredentials })
     },
     getNumberOfCredentials() {
-        return mockasync(credentials.length).then(res => res.data)
+        return mockasync({ count_credentials: credentials.length })
     },
-    toggleCredentialFavorite(credentialId) {
-        const credential = credentials.find(credential => credential.id === credentialId)
-        return mockasync(!credential.favorite).then(res => res.data)
+    toggleCredentialFavorite(credential) {
+        return mockasync({ credential })
     },
     getCredentialPassword(credentialId) {
         const password = passwords.find(password => password.id === credentialId).password
-        return mockasync(password).then(res => res.data)
+        return mockasync({ password })
     },
     deleteCredentialPassword(credentialId) {
         for (let index = 0; index < passwords.length; index++) {
@@ -90,7 +89,7 @@ const api = {
                 break
             }
         }
-        return mockasync({}).then(res => res.data)
+        return mockasync({})
     },
     saveCredential(credential) {
         const newCredential = {
@@ -101,17 +100,17 @@ const api = {
             ...credential
         }
         passwords.push(newCredential)
-        return mockasync(newCredential).then(res => res.data)
+        return mockasync({ credential: newCredential })
     },
 
     // Logs
     getAllLogs() {
-        return mockasync(logs).then(res => res.data)
+        return mockasync({ logs })
     },
 
     // PassImage
     getPassImage (userEmail) {
-        return mockasync({ image_url }).then(res => res.data)
+        return mockasync({ image_url })
     }
 };
 
