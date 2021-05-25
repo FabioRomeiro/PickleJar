@@ -28,6 +28,9 @@ const api = {
         loggedIn = true
         return mockasync(logged_user)
     },
+    signup(email, imageUrl, data) {
+        return mockasync({})
+    },
     logout() {
         loggedIn = false
         return mockasync({})

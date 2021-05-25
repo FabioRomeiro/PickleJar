@@ -115,6 +115,8 @@ export default {
 	overflow: hidden;
 	border-radius: 3px;
 	border: solid 1px $color-gray !important;
+	background-position: center;
+	background-size: cover;
 
 	&__circle {
 		position: absolute;

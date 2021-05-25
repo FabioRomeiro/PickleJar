@@ -35,6 +35,20 @@ class TestAuth(TestCase):
             'email': self.arthur.email
         })
 
+    def test_signup(self):
+        response = self.client.post('/api/signup', {
+            'email': 'lenny@westmail.com',
+            'pass_data': json.dumps({
+                'grid_size': 500,
+                'coords': [
+                    {'x': 465, 'y': 231}, {'x': 53, 'y': 263}, {'x': 196, 'y': 130},
+                    {'x': 13, 'y': 151}, {'x': 176, 'y': 273}
+                ]
+            })
+        })
+        self.assertEqual(200, response.status_code)
+        self.assertEqual(response.json(), {})
+
 
     #
     # def test_auth_api(self):

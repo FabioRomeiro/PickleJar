@@ -30,6 +30,12 @@ const routes = [
     name: 'Login',
     component: () => import(/* webpackChunkName: "login" */ "../views/Login.vue"),
     meta: { authenticationRequired: false }
+  },
+  {
+    path: '/signup',
+    name: 'Signup',
+    component: () => import(/* webpackChunkName: "signup" */ "../views/Signup.vue"),
+    meta: { authenticationRequired: false }
   }
 ];
 

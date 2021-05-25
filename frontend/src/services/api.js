@@ -10,6 +10,16 @@ const api = {
             })
         })
     },
+    signup(email, imageUrl, data){
+        return post('/api/signup', {
+            email,
+            imageUrl,
+            pass_data: JSON.stringify({
+                grid_size: data.gridSize,
+                coords: data.inputs
+            })
+        })
+    },
     logout(){
         return post('/api/logout');
     },

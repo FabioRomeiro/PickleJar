@@ -2,7 +2,6 @@
 import json
 from django.http.response import HttpResponse, JsonResponse
 from django.contrib import auth
-from commons.django_model_utils import get_or_none
 from commons.django_views_utils import ajax_login_required
 from django.views.decorators.csrf import csrf_exempt
 from core.service import credential_svc, log_svc, passimage_svc, auth_svc
@@ -24,6 +23,14 @@ def login(request):
             log_svc.log_login(request.user)
             user_dict = _user2dict(user)
     return JsonResponse(user_dict, safe=False)
+
+
+@csrf_exempt
+def signup(request):
+    email = request.POST['email']
+    pass_data = json.loads(request.POST['pass_data'])
+    auth_svc.signup(email, pass_data)
+    return JsonResponse({})
 
 
 def logout(request):
