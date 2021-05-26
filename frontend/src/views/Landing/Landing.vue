@@ -23,7 +23,7 @@ export default {
 <style lang="scss" scoped>
 .landing {
 	width: 100%;
-	height: 100vh;
+	min-height: 100vh;
 	background-color: $color-green;
 	display: flex;
   flex-direction: column;
@@ -42,7 +42,7 @@ export default {
   }
 
   &__wrapper {
-    margin-top: 10vh;
+    margin: 10vh 0 spacing(3) 0;
     display: flex;
     flex-direction: column;
     align-items: center;
