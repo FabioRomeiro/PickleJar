@@ -1,8 +1,24 @@
 import { get, post } from '../helpers/Http';
 
 const api = {
-    login(username, password){
-        return post('/api/login', {username: username, password: password});
+    login(email, data){
+        return post('/api/login', {
+            email,
+            pass_data: JSON.stringify({
+                grid_size: data.gridSize,
+                coords: data.inputs
+            })
+        })
+    },
+    signup(email, imageUrl, data){
+        return post('/api/signup', {
+            email,
+            passimage_url: imageUrl,
+            pass_data: JSON.stringify({
+                grid_size: data.gridSize,
+                coords: data.inputs
+            })
+        })
     },
     logout(){
         return post('/api/logout');
@@ -52,6 +68,13 @@ const api = {
     // Logs
     getAllLogs() {
         return get('/api/logs')
+    },
+
+    // PassImage
+    getPassImage (userEmail) {
+        return get('/api/passimage', {
+            user_email: userEmail
+        })
     }
 }
 export default api;

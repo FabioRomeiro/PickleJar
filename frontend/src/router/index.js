@@ -3,33 +3,49 @@ import store from '@/store/index'
 
 const routes = [
   {
-    path: "/",
-    name: "Home",
-    component: () => import(/* webpackChunkName: "home" */ "../views/Home/Home.vue"),
+    path: '/',
+    name: 'Home',
+    component: () => import(/* webpackChunkName: 'home' */ '../views/Home/Home.vue'),
     meta: { authenticationRequired: true },
     children: [
       {
 				path: '',
 				name: 'Overview',
-        component: () => import(/* webpackChunkName: "overview" */ "../views/Home/Overview.vue")
+        component: () => import(/* webpackChunkName: 'overview' */ '../views/Home/Overview.vue')
       },
       {
 				path: 'credentials',
 				name: 'Credentials',
-        component: () => import(/* webpackChunkName: "credentials" */ "../views/Home/Credentials.vue")
+        component: () => import(/* webpackChunkName: 'credentials' */ '../views/Home/Credentials.vue')
 			},
 			{
 				path: 'logs',
 				name: 'Logs',
-        component: () => import(/* webpackChunkName: "logs" */ "../views/Home/Logs.vue")
+        component: () => import(/* webpackChunkName: 'logs' */ '../views/Home/Logs.vue')
 			}
     ]
   },
   {
-    path: '/login',
-    name: 'Login',
-    component: () => import(/* webpackChunkName: "login" */ "../views/Login.vue"),
-    meta: { authenticationRequired: false }
+    path: '/landing',
+    name: 'Landing',
+    component: () => import(/* webpackChunkName: 'landing' */ '../views/Landing/Landing.vue'),
+    meta: { authenticationRequired: false },
+    children: [
+      {
+        path: '',
+        name: 'Login',
+        component: () => import(/* webpackChunkName: "login" */ "../views/Landing/Login.vue")
+      },
+      {
+        path: 'signup',
+        name: 'Signup',
+        component: () => import(/* webpackChunkName: "signup" */ "../views/Landing/Signup.vue")
+      }
+    ]
+  },
+  {
+    path: '/:any(.*)',
+    redirect: '/'
   }
 ];
 
@@ -40,11 +56,17 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  if (to.meta.authenticationRequired && store.getters['auth/currentUser'] === undefined) {
+  if (store.getters['auth/currentUser'] === undefined) {
     await store.dispatch('auth/whoami')
-    if (!store.getters['auth/currentUser']) {
-      next({ name: 'Login' })
+    
+    if (to.meta.authenticationRequired) {
+      if (!store.getters['auth/currentUser']) {
+        next({ name: 'Login' })
+      }
     }
+  }
+  if (!to.meta.authenticationRequired && store.getters['auth/currentUser']) {
+    next({ name: 'Overview' })
   }
   next()
 })
