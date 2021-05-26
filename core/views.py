@@ -28,8 +28,9 @@ def login(request):
 @csrf_exempt
 def signup(request):
     email = request.POST['email']
+    passimage_url = request.POST['passimage_url']
     pass_data = json.loads(request.POST['pass_data'])
-    auth_svc.signup(email, pass_data)
+    auth_svc.signup(email, passimage_url, pass_data)
     return JsonResponse({})
 
 

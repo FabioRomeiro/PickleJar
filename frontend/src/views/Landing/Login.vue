@@ -18,7 +18,7 @@
 		</div>
 		<div class="login-page__passimage" v-if="passimageUrl">
 			<span class="passimage-label">Click your sequence</span>
-			<GraphicalInput class="passimage-input" v-model="passimageData" :passimage="passimageUrl" @update="entrar" />
+			<GraphicalInput class="passimage-input" v-model="passimageData" :passimage="passimageUrl" @update="logIn" />
 		</div>
 	</div>
 </template>
@@ -36,8 +36,11 @@ export default {
 		CustomButton
 	},
 	methods: {
-		entrar () {
-			api.login(this.email, this.passimageData)
+		async logIn () {
+			const user = await api.login(this.email, this.passimageData)
+			if (user) {
+				this.$router.push({ name: 'Home' })
+			}
 		},
 		async loadImagepass () {
 			const { image_url } = await api.getPassImage(this.email)

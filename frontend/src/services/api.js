@@ -13,7 +13,7 @@ const api = {
     signup(email, imageUrl, data){
         return post('/api/signup', {
             email,
-            imageUrl,
+            passimage_url: imageUrl,
             pass_data: JSON.stringify({
                 grid_size: data.gridSize,
                 coords: data.inputs

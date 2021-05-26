@@ -16,11 +16,11 @@ def login(email, pass_data):
     return None
 
 
-def signup(email, pass_data):
+def signup(email, passimage_url, pass_data):
     grid_size = pass_data['grid_size']
     coords = pass_data['coords']
     coords = [(coord['x'] / grid_size, coord['y'] / grid_size) for coord in coords]
-    User.objects.create(email=email, passcoord=encrypt_coords(coords))
+    User.objects.create(email=email, passcoord=encrypt_coords(coords), passimage_url=passimage_url)
 
 
 def _is_coords_correct(grid_size_px, coords_px, right_coords):

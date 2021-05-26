@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from core.models import ActivityLog, Credential, PassImage, User
+from core.models import ActivityLog, Credential, User
 
 
 class ActivityLogAdmin(admin.ModelAdmin):
@@ -40,5 +40,4 @@ class UserAdmin(admin.ModelAdmin):
 
 admin.site.register(ActivityLog, ActivityLogAdmin)
 admin.site.register(Credential, CredentialAdmin)
-admin.site.register(PassImage, PassImageAdmin)
 admin.site.register(User, UserAdmin)

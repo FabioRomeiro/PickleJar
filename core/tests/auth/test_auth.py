@@ -38,6 +38,7 @@ class TestAuth(TestCase):
     def test_signup(self):
         response = self.client.post('/api/signup', {
             'email': 'lenny@westmail.com',
+            'image_url': 'https://i.ytimg.com/vi/qW6_e7oJERU/maxresdefault.jpg',
             'pass_data': json.dumps({
                 'grid_size': 500,
                 'coords': [

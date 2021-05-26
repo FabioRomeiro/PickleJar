@@ -48,6 +48,7 @@ class User(AbstractBaseUser):
     staff = models.BooleanField(default=False)
     admin = models.BooleanField(default=False)
     passcoord = models.BinaryField(null=False, blank=False)
+    passimage_url = models.CharField(default='', max_length=300)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -134,22 +135,6 @@ class Credential(models.Model):
             'created_at': str(self.created_at),
             'last_updated': str(self.last_updated),
             'last_accessed': str(self.last_accessed)
-        }
-
-    __dictjson__ = to_dict_json
-
-
-class PassImage(models.Model):
-    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
-    image_url = models.CharField(max_length=500)
-
-    def __str__(self):
-        return self.image_url
-
-    def to_dict_json(self):
-        return {
-            'user_email': self.user.email,
-            'image_url': self.image_url
         }
 
     __dictjson__ = to_dict_json

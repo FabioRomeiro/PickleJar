@@ -56,10 +56,13 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  if (to.meta.authenticationRequired && store.getters['auth/currentUser'] === undefined) {
+  if (store.getters['auth/currentUser'] === undefined) {
     await store.dispatch('auth/whoami')
-    if (!store.getters['auth/currentUser']) {
-      next({ name: 'Login' })
+    
+    if (to.meta.authenticationRequired) {
+      if (!store.getters['auth/currentUser']) {
+        next({ name: 'Login' })
+      }
     }
   }
   if (!to.meta.authenticationRequired && store.getters['auth/currentUser']) {
