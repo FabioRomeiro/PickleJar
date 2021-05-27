@@ -47,7 +47,7 @@ function devhelp {
     echo -e ""
     echo -e "${GREEN}deploy_prod${RESTORE}       Connects to the production server and deploys it"
     echo -e ""
-    echo -e "${GREEN}dkpgnginx${RESTORE}         Starts dockerized ${RED}nginx and postgres${RESTORE}"
+    echo -e "${GREEN}dkredispgnginx${RESTORE}         Starts dockerized ${RED}nginx, redis and postgres${RESTORE}"
     echo -e ""
 }
 
@@ -97,10 +97,10 @@ function dknpminstall {
     return $exitcode
 }
 
-function dkpgnginx {
+function dkredispgnginx {
     CD=$(pwd)
     cd $PROJ_BASE
-    docker-compose -f docker/compose/pgnginx.yaml up
+    docker-compose -f docker/compose/redispgnginx.yaml up
     exitcode=$?
     cd $CD
     return $exitcode

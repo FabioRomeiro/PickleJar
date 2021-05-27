@@ -6,3 +6,4 @@ coverage==5.5
 tblib==1.7.0
 model_bakery==1.2.1
 cryptography==3.4.7
+channels-redis==3.2.0

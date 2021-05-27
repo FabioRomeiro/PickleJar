@@ -1,4 +1,6 @@
 from django.db.models import Q
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 
 from core.models import Credential
 from core.service import log_svc
@@ -29,7 +31,15 @@ def save_credential(credential_dict, owner):
         credential_dict.update({'owner': owner})
         credential = Credential.objects.create(**credential_dict)
         log_svc.log_credential_creation(owner, credential)
-    return credential.to_dict_json()
+
+    credential_dict = credential.to_dict_json()
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)('credentials', {
+        'type': 'send_updated_credential',
+        'credential': credential_dict,
+        'credential_id': credential.id
+    })
+    return credential_dict
 
 
 def delete_credential(id, owner):
