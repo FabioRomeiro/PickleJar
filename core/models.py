@@ -49,6 +49,8 @@ class User(AbstractBaseUser):
     admin = models.BooleanField(default=False)
     passcoord = models.BinaryField(null=False, blank=False)
     passimage_url = models.CharField(default='', max_length=300)
+    first_name = models.CharField(default='', max_length=100)
+    last_name = models.CharField(default='', max_length=100)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

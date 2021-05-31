@@ -102,6 +102,8 @@ def list_logs(request):
 def _user2dict(user):
     d = {
         'id': user.id,
-        'email': user.email
+        'email': user.email,
+        'first_name': user.first_name,
+        'last_name': user.last_name
     }
     return d

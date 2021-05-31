@@ -42,11 +42,16 @@ def save_credential(credential_dict, owner):
     return credential_dict
 
 
-def delete_credential(id, owner):
-    credential = Credential.objects.filter(pk=id, owner=owner)
+def delete_credential(credential_id, owner):
+    credential = Credential.objects.filter(pk=credential_id, owner=owner)
     if credential.exists():
         log_svc.log_credential_delete(owner, credential[0])
         credential.update(active=False)
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)('credentials', {
+            'type': 'send_deleted_credential',
+            'credential_id': credential_id
+        })
 
 
 def list_credentials(owner=None, search_text='', order_by='-created_at', favorite_only=False, count_only=False,

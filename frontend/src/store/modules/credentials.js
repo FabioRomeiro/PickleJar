@@ -10,7 +10,7 @@ const mutations = {
 		credentials.forEach(credential => {
 			const stateCredential = state.credentials.find(stateCredential => stateCredential.id === credential.id)
 			if (stateCredential) {
-				Object.keys(state.credentials).forEach(key => {
+				Object.keys(stateCredential).forEach(key => {
 					stateCredential[key] = credential[key]
 				})
 			}
@@ -27,8 +27,8 @@ const mutations = {
 		const stateCredential = state.credentials.find(stateCredential => stateCredential === credential)
 		stateCredential.favorite = favoriteState
 	},
-	REMOVE_CREDENTIAL(state, credential) {
-		let index = state.credentials.indexOf(credential)
+	REMOVE_CREDENTIAL(state, credentialId) {
+		let index = state.credentials.findIndex(credential => credential.id === credentialId)
 		state.credentials.splice(index, 1)
 		state.numberOfCredentials -= 1
 	},
@@ -47,14 +47,14 @@ const getters = {
 	},
 	recentAccessedCredentials(state) {
 		function _sortLastAccessed(a, b) {
-            if (a.last_accessed > b.last_accessed) {
-                return 1;
-            }
-            if (a.last_accessed < b.last_accessed) {
-                return -1;
-            }
-            return 0
-        }
+				if (a.last_accessed > b.last_accessed) {
+						return 1;
+				}
+				if (a.last_accessed < b.last_accessed) {
+						return -1;
+				}
+				return 0
+		}
 		return limit => state.credentials.sort(_sortLastAccessed).slice(0, limit)
 	},
 	numberOfCredentials(state) {
@@ -109,7 +109,7 @@ const actions = {
 	},
 	async deleteCredential({ state, commit }, credential) {
 		await api.deleteCredentialPassword(credential.id)
-		commit('REMOVE_CREDENTIAL', credential)
+		commit('REMOVE_CREDENTIAL', credential.id)
 	},
 	async saveCredential({ commit, getters }, credential) {
 		const data = await api.saveCredential(credential)

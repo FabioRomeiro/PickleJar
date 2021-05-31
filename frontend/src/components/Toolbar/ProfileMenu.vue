@@ -2,12 +2,16 @@
     <a class="profile" @click.prevent="toggleMenu">
         <div class="profile__info">
             <span class="profile__name">{{ userName }}</span>
-            <SecurityStatusBadge class="profile__status" />
         </div>
         <div class="profile__pic">
             <ImageReplace variant="white small rounded" :src="userPicutre" :name="userName" alt="Foto de perfil" />
         </div>
         <ul class="profile__menu" v-if="menuIsOpen">
+            <li class="profile__menu-item">
+                <router-link to="/profile">
+                    Edit profile
+                </router-link>
+            </li>
             <li class="profile__menu-item">
                 <a @click="logOut">
                     Log out
@@ -18,13 +22,11 @@
 </template>
 
 <script>
-import SecurityStatusBadge from '@/components/Global/SecurityStatusBadge.vue';
 import ImageReplace from '@/components/Utils/ImageReplace.vue';
 
 export default {
     name: 'ProfileMenu',
     components: {
-        SecurityStatusBadge,
         ImageReplace
     },
     computed: {
@@ -32,7 +34,7 @@ export default {
             return this.$store.getters['auth/currentUser']
         },
         userName() {
-            return this.user.name
+            return this.user.first_name
         },
         userPicutre() {
             return this.user.picture;
@@ -44,7 +46,7 @@ export default {
         },
         logOut() {
             this.$store.dispatch('auth/logout');
-            this.$router.push('/wellcome');
+            this.$router.push({ name: 'Landing' });
         }
     },
     data() {
@@ -133,7 +135,7 @@ export default {
 
         &__status {
             align-self: flex-end;
-            margin-top: 4px;
+            margin-top: 8px;
         }
     }
 </style>

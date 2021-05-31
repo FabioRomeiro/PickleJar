@@ -62,6 +62,18 @@ export default {
         this.$eventBus.on(this.$eventKeys.ADD_CREDENTIAL, this.createCredentialAndOpenWorkspace, true)
         this.$eventBus.on(this.$eventKeys.EDIT_CREDENTIAL, this.openWorkspaceToEdit, true)
         this.$eventBus.on(this.$eventKeys.VIEW_CREDENTIAL, this.openWorkspaceToView, true)
+
+        const self = this
+        const ws = new WebSocket('ws://localhost:8000/ws/credentials/')
+		ws.onmessage = evt => {
+			const data = JSON.parse(evt.data)
+            if (data.type === 'send_updated_credential') {
+                self.$store.commit('credentials/ADD_CREDENTIALS', [data.credential])   
+            }
+            else if (data.type === 'send_deleted_credential') {
+                self.$store.commit('credentials/REMOVE_CREDENTIAL', data.credential_id)
+            }
+		}
     },
     computed: {
         headerTitle() {
@@ -101,7 +113,6 @@ export default {
         },
         async openWorkspaceToEdit(credential) {
             let password = await this.$store.dispatch('credentials/getCredentialPassword', credential.id)
-            console.log(password)
             this.$store.commit('credentialWorkspace/SET_PASSWORD', password)
             this.$store.commit('credentialWorkspace/OPEN_WORKSPACE', {
                 credential,
