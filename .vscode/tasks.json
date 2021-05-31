@@ -1,0 +1,42 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"command": "source ~/.virtualenvs/buser/bin/activate && invoke djangorun",
+			"label": "API",
+			"detail": "djangorun",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true
+			},
+			"problemMatcher": []
+		},
+		{
+			"type": "shell",
+			"command": "cd frontend && NODE_ENV=development PORT=3000 HOST=0.0.0.0 API_MOCK=1 npm run serve",
+			"problemMatcher": [],
+			"label": "Front Mock",
+			"detail": "npm run dev:all"
+		},
+		{
+			"type": "shell",
+			"command": "cd frontend && NODE_ENV=development PORT=3000 HOST=0.0.0.0 API_MOCK=0 npm run serve",
+			"problemMatcher": [],
+			"label": "Front Prod",
+			"detail": "npm run dev:disable-mock"
+		},
+		{
+			"type": "npm",
+			"script": "install",
+			"path": "frontend/",
+			"problemMatcher": [],
+			"label": "Install front dependeces",
+			"detail": "npm install"
+		}
+	]
+}

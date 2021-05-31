@@ -20,6 +20,11 @@
 			<span class="passimage-label">Click your sequence</span>
 			<GraphicalInput class="passimage-input" v-model="passimageData" :passimage="passimageUrl" @update="logIn" />
 		</div>
+		<div class="login-page__signup">
+			<router-link to="/landing/signup" class="link">
+				I don't have an account
+			</router-link>
+		</div>
 	</div>
 </template>
 
@@ -112,6 +117,10 @@ export default {
 		@media (max-width: 360px) {
 			font-size: 18px;
 		}
+	}
+
+	&__signup {
+		margin-top: spacing(2);
 	}
 }
 </style>

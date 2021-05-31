@@ -1,10 +1,24 @@
 <template>
-	<div
-		class="graphical-input"
-		ref="graphicalInput"
-		:style="inputStyle"
-		@click="onClick"
-	></div>
+	<div class="graphical-input">
+
+		<div class="graphical-input__steps" v-if="withSteps">
+			<div
+				class="graphical-input__step"
+				:class="{'graphical-input__step--active': step <= inputsCount}"
+				v-for="step in inputs"
+				:key="step"
+			>
+				{{ step }}
+			</div>
+		</div>
+
+		<div
+			class="graphical-input__input"
+			ref="graphicalInput"
+			:style="inputStyle"
+			@click="onClick"
+		></div>
+	</div>
 </template>
 
 <script>
@@ -12,6 +26,7 @@ export default {
 	props: {
 		modelValue: Object,
 		passimage: String,
+		withSteps: Boolean,
 		inputs: {
 			type: Number,
 			default: 5
@@ -76,7 +91,9 @@ export default {
 			
 			this.$refs.graphicalInput.appendChild(circleElement)
 			setTimeout(() => {
-				this.$refs.graphicalInput.removeChild(circleElement)
+				if (this.$refs.graphicalInput) {
+					this.$refs.graphicalInput.removeChild(circleElement)
+				}
 			}, this.animationDuration + 100)
 		},
 		updateValue () {
@@ -110,13 +127,45 @@ export default {
 	}
 }
 .graphical-input {
-	cursor: pointer;
-	position: relative;
-	overflow: hidden;
-	border-radius: 3px;
-	border: solid 1px $color-gray !important;
-	background-position: center;
-	background-size: cover;
+
+	&__steps {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: spacing(3);
+	}
+
+	&__step {
+		width: 40px;
+		height: 40px;
+		border-radius: 40px;
+		background-color: $color-gray-light;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		font-size: 20px;
+		font-weight: 500;
+		border: solid 1px $color-gray;
+		color: $color-gray-dark;
+		transition: border-color .3s ease-in-out, color .3s ease-in-out, background-color .3s ease-in-out;
+
+		&--active {
+			background-color: $color-green-extra-light;
+			color: $color-green-dark;
+			border-color: $color-green-dark;
+		}
+	}
+
+	&__input {
+		cursor: pointer;
+		position: relative;
+		overflow: hidden;
+		border-radius: 3px;
+		border: solid 1px $color-gray !important;
+		background-position: center;
+		background-size: cover;
+	}
 
 	&__circle {
 		position: absolute;
