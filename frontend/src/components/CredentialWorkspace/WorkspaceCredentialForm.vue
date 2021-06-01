@@ -93,6 +93,9 @@ export default {
         saveCredentialWithPassword() {
             clearTimeout(this.savingTimeout)
             this.savingTimeout = setTimeout(() => {
+                if (!this.credential) {
+                    return
+                }
                 let data = {...this.credential}
                 if (this.password) {
                     data.password = this.password

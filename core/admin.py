@@ -20,11 +20,11 @@ class PassImageAdmin(admin.ModelAdmin):
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['email', 'admin', 'passcoord']
+    list_display = ['email', 'first_name', 'last_name', 'admin', 'passcoord']
     list_filter = ['admin']
     fieldsets = (
         (None, {'fields': ('email',)}),
-        ('Personal info', {'fields': ()}),
+        ('Personal info', {'fields': ('first_name', 'last_name',)}),
         ('Permissions', {'fields': ('admin',)}),
     )
     add_fieldsets = (
@@ -33,7 +33,7 @@ class UserAdmin(admin.ModelAdmin):
             'fields': ('email',)}
          ),
     )
-    search_fields = ['email']
+    search_fields = ['email', 'first_name', 'last_name']
     ordering = ['email']
     filter_horizontal = ()
 

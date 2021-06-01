@@ -37,7 +37,7 @@ def signup(request):
 def logout(request):
     if request.method.lower() != 'post':
         raise Exception('Logout only via post')
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         log_svc.log_logout(request.user)
     auth.logout(request)
     return HttpResponse('{}', content_type='application/json')
@@ -102,6 +102,8 @@ def list_logs(request):
 def _user2dict(user):
     d = {
         'id': user.id,
-        'email': user.email
+        'email': user.email,
+        'first_name': user.first_name,
+        'last_name': user.last_name
     }
     return d

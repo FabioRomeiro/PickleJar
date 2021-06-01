@@ -10,9 +10,11 @@ const api = {
             })
         })
     },
-    signup(email, imageUrl, data){
+    signup(email, imageUrl, data, firstName, lastName){
         return post('/api/signup', {
             email,
+            first_name: firstName, 
+            last_name: lastName,
             passimage_url: imageUrl,
             pass_data: JSON.stringify({
                 grid_size: data.gridSize,

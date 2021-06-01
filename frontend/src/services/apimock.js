@@ -4,8 +4,9 @@ import { image_url } from './mock/DB_PassImage'
 import { UtilsMixins } from '@/helpers/Mixins'
 
 var logged_user = {
-    username: 'markzin',
-    name: 'Mark Zuckerberg',
+    id: 1,
+    first_name: 'Mark',
+    last_name: 'Zuckerberg',
     email: 'zuck@facebook.com',
     notifications_enabled: true,
     permissions:{

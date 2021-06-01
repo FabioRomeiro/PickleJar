@@ -1,13 +1,6 @@
 <template>
     <div class="overview">
-        <div class="overview__header">
-            <h3 class="status">
-                Your passwords are <SecurityStatusBadge size="big" />
-            </h3>
-            <a href class="recomendation">Make them safer</a>
-        </div>
-
-        <div class="overview__body">
+        <div class="overview__content">
             <div class="body-item">
                 <Card headerTitle="Favorites" headerIcon="grade">
                     <template v-slot:content>
@@ -68,7 +61,6 @@
 
 
 <script>
-import SecurityStatusBadge from '@/components/Global/SecurityStatusBadge.vue'
 import EmptyCasePlaceholder from '@/components/Utils/EmptyCasePlaceholder.vue'
 import Card from '@/components/Utils/Card.vue'
 import CustomButton from '@/components/Forms/CustomButton.vue'
@@ -77,7 +69,6 @@ import CredentialItem from '@/components/Credential/CredentialItem.vue'
 export default {
     name: 'Overview',
     components: {
-        SecurityStatusBadge,
         EmptyCasePlaceholder,
         CredentialItem,
         Card,
@@ -116,20 +107,6 @@ export default {
         flex-direction: column;
         align-items: center;
 
-        &__header {
-            display: inline-flex;
-            flex-direction: column;
-            align-items: flex-start;
-            justify-content: center;
-            margin-bottom: spacing(3);
-
-            .status {
-                font-size: 24px;
-                font-weight: $font-weight-medium;
-                margin-bottom: spacing(1);
-            }
-        }
-
         &__credentials {
             .credentials-item {
                 margin-bottom: spacing(2);
@@ -140,7 +117,7 @@ export default {
             }
         }
 
-        &__body {
+        &__content {
             display: flex;
             margin: -#{spacing(1)};
 

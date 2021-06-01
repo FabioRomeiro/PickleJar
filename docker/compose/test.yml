@@ -12,3 +12,5 @@ services:
       - POSTGRES_USER=app
       - POSTGRES_DB=app
       - POSTGRES_PASSWORD=app
+  redis:
+    image: redis:latest

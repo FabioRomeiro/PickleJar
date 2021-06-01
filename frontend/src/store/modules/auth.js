@@ -27,6 +27,10 @@ const actions = {
         } else {
             commit('SET_CURRENT_USER', null)
         }
+    },
+    async logout ({ commit }) {
+        await api.logout()
+        commit('SET_CURRENT_USER', null)
     }
 }
 
