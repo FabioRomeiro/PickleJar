@@ -107,7 +107,7 @@ class Credential(models.Model):
 
     name = models.CharField(max_length=100)
     username = models.CharField(max_length=100)
-    password = models.CharField(max_length=100)
+    password = models.BinaryField()
     image = models.CharField(blank=True, max_length=500, default='')
     link = models.CharField(blank=True, max_length=255, default='')
     notes = models.TextField(blank=True, default='')
