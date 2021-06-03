@@ -28,12 +28,15 @@ def login(request):
 @csrf_exempt
 def signup(request):
     email = request.POST['email']
+    first_name = request.POST['first_name']
+    last_name = request.POST['last_name']
     passimage_url = request.POST['passimage_url']
     pass_data = json.loads(request.POST['pass_data'])
-    auth_svc.signup(email, passimage_url, pass_data)
+    auth_svc.signup(email, passimage_url, pass_data, first_name, last_name)
     return JsonResponse({})
 
 
+@ajax_login_required
 def logout(request):
     if request.method.lower() != 'post':
         raise Exception('Logout only via post')
@@ -57,6 +60,16 @@ def save_credential(request):
     user = request.user
     updated_credential = credential_svc.save_credential(credential, user)
     return JsonResponse({'credential': updated_credential})
+
+
+@ajax_login_required
+def save_user(request):
+    user_new_info = request.POST.dict()
+    if 'pass_data' in user_new_info:
+        user_new_info['pass_data'] = json.loads(user_new_info['pass_data'])
+    user = request.user
+    updated_credential = auth_svc.save_user(user_new_info, user)
+    return JsonResponse({'user': updated_credential})
 
 
 @ajax_login_required
@@ -104,6 +117,7 @@ def _user2dict(user):
         'id': user.id,
         'email': user.email,
         'first_name': user.first_name,
-        'last_name': user.last_name
+        'last_name': user.last_name,
+        'passimage_url': user.passimage_url
     }
     return d

@@ -34,19 +34,19 @@ export default {
             return this.$store.getters['auth/currentUser']
         },
         userName() {
-            return this.user.first_name
+            return this.user && this.user.first_name
         },
         userPicutre() {
-            return this.user.picture;
+            return this.user && this.user.picture
         }
     },
     methods: {
         toggleMenu() {
-            this.menuIsOpen = !this.menuIsOpen;
+            this.menuIsOpen = !this.menuIsOpen
         },
-        logOut() {
-            this.$store.dispatch('auth/logout');
-            this.$router.push({ name: 'Landing' });
+        async logOut() {
+            await this.$store.dispatch('auth/logout')
+            this.$router.push({ name: 'Landing' })
         }
     },
     data() {

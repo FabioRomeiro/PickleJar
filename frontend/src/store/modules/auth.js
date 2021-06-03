@@ -31,6 +31,12 @@ const actions = {
     async logout ({ commit }) {
         await api.logout()
         commit('SET_CURRENT_USER', null)
+    },
+    async login ({ commit }, data) {
+        const user = await api.login(data.email, data.passimageData)
+        if (user) {
+            commit('SET_CURRENT_USER', user)
+        }
     }
 }
 
