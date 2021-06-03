@@ -1,21 +1,27 @@
+import json
+
 from django.db.models import Q
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 
 from core.models import Credential
 from core.service import log_svc
+from picklejar.settings import CREDENTIALS_KEY
 
 
 def save_credential(credential_dict, owner):
-    id = credential_dict.get('id')
+    credential_id = credential_dict.get('id')
     credential_dict['favorite'] = credential_dict.get('favorite') == 'true'
-    if id:
-        credential = Credential.objects.get(pk=id)
+    credential_password = credential_dict.get('password')
+    if credential_password is not None:
+        credential_password = encrypt_password(credential_password)
+        del credential_dict['password']
+    if credential_id:
+        credential = Credential.objects.get(pk=credential_id)
         credential.name = credential_dict.get('name', '')
         credential.username = credential_dict.get('username', '')
-        new_password = credential_dict.get('password')
-        if new_password:
-            credential.password = new_password
+        if credential_password:
+            credential.password = credential_password
         credential.image = credential_dict.get('image', '')
         credential.link = credential_dict.get('link', '')
         credential.notes = credential_dict.get('notes', '')
@@ -29,7 +35,7 @@ def save_credential(credential_dict, owner):
         log_svc.log_credential_edit(owner, credential)
     else:
         credential_dict.update({'owner': owner})
-        credential = Credential.objects.create(**credential_dict)
+        credential = Credential.objects.create(**credential_dict, password=credential_password)
         log_svc.log_credential_creation(owner, credential)
 
     credential_dict = credential.to_dict_json()
@@ -74,5 +80,13 @@ def list_credentials(owner=None, search_text='', order_by='-created_at', favorit
 def get_password(owner=None, credential_id=None):
     credential = Credential.objects.get(owner=owner, pk=credential_id, active=True)
     log_svc.log_password_access(owner, credential)
-    return credential.password
+    return decrypt_password(credential.password)
+
+
+def decrypt_password(password):
+    return json.loads(CREDENTIALS_KEY.decrypt(password.tobytes()))
+
+
+def encrypt_password(password):
+    return CREDENTIALS_KEY.encrypt(json.dumps(password).encode())
 
