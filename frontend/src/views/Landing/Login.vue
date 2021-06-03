@@ -42,14 +42,36 @@ export default {
 	},
 	methods: {
 		async logIn () {
-			const user = await api.login(this.email, this.passimageData)
-			if (user) {
-				this.$router.push({ name: 'Home' })
+			try {
+				await this.$store.dispatch('auth/login', {
+					email: this.email,
+					passimageData: this.passimageData
+				})
+				const user = this.$store.getters['auth/currentUser']
+				if (user) {
+					this.$router.push({ name: 'Home' })
+				}
+			}
+			catch (e) {
+				this.$eventBus.emit(this.$eventKeys.CALL_ALERT, {
+						message: 'Wrong sequence. Make it sure you clicked on the right spots',
+						type: 'danger',
+						lifeTime: 4000
+				})
 			}
 		},
 		async loadImagepass () {
-			const { image_url } = await api.getPassImage(this.email)
-			this.passimageUrl = image_url
+			try {
+				const { image_url } = await api.getPassImage(this.email)
+				this.passimageUrl = image_url
+			} 
+			catch (e) {
+				this.$eventBus.emit(this.$eventKeys.CALL_ALERT, {
+						message: 'This e-mail is not associated with any account',
+						type: 'danger',
+						lifeTime: 4000
+				})
+			}
 		},
 		resetPassimage () {
 			this.passimageUrl = null

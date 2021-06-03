@@ -7,6 +7,7 @@ urlpatterns = [
     path('api/signup', views.signup),
     path('api/logout', views.logout),
     path('api/whoami', views.whoami),
+    path('api/save_user', views.save_user),
 
     # Credential
     path('api/credentials/save', views.save_credential),

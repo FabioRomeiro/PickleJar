@@ -86,6 +86,11 @@ export default {
     methods: {
         deleteCredential() {
             this.$store.dispatch('credentials/deleteCredential', this.credential)
+            this.$eventBus.emit(this.$eventKeys.CALL_ALERT, {
+                message: 'Credential deleted with success',
+                type: 'success',
+                lifeTime: 4000
+            })
         },
         togglePasswordFavoriteState() {
             if (this.mock) {

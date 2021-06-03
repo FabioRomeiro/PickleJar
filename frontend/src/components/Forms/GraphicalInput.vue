@@ -128,7 +128,12 @@ export default {
 }
 .graphical-input {
 
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+
 	&__steps {
+		width: 100%;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;

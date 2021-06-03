@@ -130,6 +130,11 @@ export default {
                 return
             }
             this.$store.dispatch('credentials/deleteCredential', this.credential)
+            this.$eventBus.emit(this.$eventKeys.CALL_ALERT, {
+                message: 'Credential deleted with success',
+                type: 'success',
+                lifeTime: 4000
+            })
             this.closeWorkspace()
         },
         closeWorkspace() {

@@ -77,6 +77,11 @@ const api = {
         return get('/api/passimage', {
             user_email: userEmail
         })
+    },
+
+    // User
+    saveUser (user) {
+        return post('/api/save_user', user)
     }
 }
 export default api;

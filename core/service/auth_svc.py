@@ -16,11 +16,12 @@ def login(email, pass_data):
     return None
 
 
-def signup(email, passimage_url, pass_data):
+def signup(email, passimage_url, pass_data, first_name, last_name):
     grid_size = pass_data['grid_size']
     coords = pass_data['coords']
     coords = [(coord['x'] / grid_size, coord['y'] / grid_size) for coord in coords]
-    User.objects.create(email=email, passcoord=encrypt_coords(coords), passimage_url=passimage_url)
+    User.objects.create(email=email, passcoord=encrypt_coords(coords), passimage_url=passimage_url,
+                        first_name=first_name, last_name=last_name)
 
 
 def _is_coords_correct(grid_size_px, coords_px, right_coords):
@@ -79,3 +80,16 @@ def is_coords_valid(coords):
             if len(coord) != 2 or not isinstance(coord[0], int) or not isinstance(coord[1], int):
                 return False
     return is_valid
+
+
+def save_user(user_new_info, user):
+    pass_data = user_new_info.get('pass_data')
+    if pass_data:
+        grid_size = pass_data['grid_size']
+        coords = pass_data['coords']
+        coords = [(coord['x'] / grid_size, coord['y'] / grid_size) for coord in coords]
+        user.passcoord = encrypt_coords(coords)
+    user.first_name = user_new_info['first_name']
+    user.last_name = user_new_info['last_name']
+    user.passimage_url = user_new_info['passimage_url']
+    user.save()
