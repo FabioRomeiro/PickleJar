@@ -20,7 +20,7 @@ export default {
 	},
 	created () {
 		const self = this
-		const ws = new WebSocket('ws://localhost:8000/ws/user/')
+		const ws = new WebSocket(`ws://${window.location.host}/ws/user/`)
 		ws.onmessage = evt => {
 			const data = JSON.parse(evt.data)
 			if (data.type === 'send_logout') {

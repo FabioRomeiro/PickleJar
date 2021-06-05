@@ -64,7 +64,7 @@ export default {
         this.$eventBus.on(this.$eventKeys.VIEW_CREDENTIAL, this.openWorkspaceToView, true)
 
         const self = this
-        const ws = new WebSocket('ws://localhost:8000/ws/credentials/')
+        const ws = new WebSocket(`ws://${window.location.host}/ws/credentials/`)
 		ws.onmessage = evt => {
 			const data = JSON.parse(evt.data)
             if (data.type === 'send_updated_credential') {
