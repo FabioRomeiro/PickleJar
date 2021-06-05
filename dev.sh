@@ -119,7 +119,7 @@ function dkrun_prod {
     docker stop picklejar
     docker rm picklejar
     docker run --name picklejar -d --env-file /home/ubuntu/picklejar.env \
-        -p 3000:3000 -p 8000:8000 \
+        -p 8000:8000 \
         -v /home/ubuntu/dkdata/picklejar:/dkdata \
         picklejar start_web.sh
 }
