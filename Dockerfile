@@ -16,7 +16,7 @@ RUN cd /tmp && \
     wget --quiet https://nodejs.org/dist/v15.4.0/node-v15.4.0-linux-x64.tar.xz && \
     tar xf node-v15.4.0-linux-x64.tar.xz && \
     cp -r node-v15.4.0-linux-x64/* /usr && \
-    rm node-v15.4.0-linux-x64.tar.xz &&
+    rm node-v15.4.0-linux-x64.tar.xz
 
 RUN mkdir /dkdata
 WORKDIR /app
