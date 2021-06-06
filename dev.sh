@@ -3,7 +3,7 @@ RESTORE='\033[0m'
 RED='\033[00;31m'
 GREEN='\033[00;32m'
 YELLOW='\e[0;33m'
-HOST_PROD=picklejar.example.com
+HOST_PROD=picklejar-api.fabioromeiro.dev
 
 # Because nobody wants to be memorizing commands all the time
 # Instructions:
@@ -126,7 +126,7 @@ function dkrun_prod {
 
 function deploy_prod {
   ssh ubuntu@$HOST_PROD "
-    cd ~/picklejar
+    cd ~/PickleJar
     git reset --hard
     git pull
     source dev.sh
