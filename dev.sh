@@ -129,6 +129,7 @@ function dkrun_api_prod {
 function deploy_front_prod {
     cd $PROJ_BASE
     cd frontend/
+    npm install
     npm run build
     cd dist/
     aws s3 sync . s3://picklejar.fabioromeiro.dev --delete
