@@ -45,6 +45,8 @@ function devhelp {
     echo -e ""
     echo -e "${GREEN}dkrun_api_prod${RESTORE}    Starts django and nuxt (dockerized) in production mode"
     echo -e ""
+    echo -e "${GREEN}deploy_front_prod${RESTORE} Build front-end and uploads it to the S3 bucket"
+    echo -e ""
     echo -e "${GREEN}deploy_prod${RESTORE}       Connects to the production server and deploys it"
     echo -e ""
     echo -e "${GREEN}dkredispgnginx${RESTORE}    Starts dockerized ${RED}nginx, redis and postgres${RESTORE}"
