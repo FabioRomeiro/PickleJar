@@ -43,11 +43,11 @@ function devhelp {
     echo -e "                  Example:"
     echo -e "                   dk ${RED}bash${RESTORE}"
     echo -e ""
-    echo -e "${GREEN}dkrun_prod${RESTORE}        Starts django and nuxt (dockerized) in production mode"
+    echo -e "${GREEN}dkrun_api_prod${RESTORE}    Starts django and nuxt (dockerized) in production mode"
     echo -e ""
     echo -e "${GREEN}deploy_prod${RESTORE}       Connects to the production server and deploys it"
     echo -e ""
-    echo -e "${GREEN}dkredispgnginx${RESTORE}         Starts dockerized ${RED}nginx, redis and postgres${RESTORE}"
+    echo -e "${GREEN}dkredispgnginx${RESTORE}    Starts dockerized ${RED}nginx, redis and postgres${RESTORE}"
     echo -e ""
 }
 
@@ -115,13 +115,21 @@ function dkup {
     return $exitcode
 }
 
-function dkrun_prod {
+function dkrun_api_prod {
     docker stop picklejar
     docker rm picklejar
     docker run --name picklejar -d --env-file /home/ubuntu/picklejar.env \
         -p 8000:8000 \
         -v /home/ubuntu/dkdata/picklejar:/dkdata \
         picklejar start_web.sh
+}
+
+function deploy_front_prod {
+    cd $PROJ_BASE
+    cd frontend/
+    npm run build
+    cd dist/
+    aws s3 sync . s3://picklejar.fabioromeiro.dev --delete
 }
 
 function deploy_prod {
@@ -131,7 +139,8 @@ function deploy_prod {
     git pull
     source dev.sh
     dkbuild
-    dkrun_prod
+    dkrun_api_prod
+    deploy_front_prod
   "
 }
 
