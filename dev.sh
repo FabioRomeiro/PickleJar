@@ -3,7 +3,7 @@ RESTORE='\033[0m'
 RED='\033[00;31m'
 GREEN='\033[00;32m'
 YELLOW='\e[0;33m'
-HOST_PROD=picklejar.example.com
+HOST_PROD=picklejar-api.fabioromeiro.dev
 
 # Because nobody wants to be memorizing commands all the time
 # Instructions:
@@ -43,11 +43,13 @@ function devhelp {
     echo -e "                  Example:"
     echo -e "                   dk ${RED}bash${RESTORE}"
     echo -e ""
-    echo -e "${GREEN}dkrun_prod${RESTORE}        Starts django and nuxt (dockerized) in production mode"
+    echo -e "${GREEN}dkrun_api_prod${RESTORE}    Starts django and nuxt (dockerized) in production mode"
+    echo -e ""
+    echo -e "${GREEN}deploy_front_prod${RESTORE} Build front-end and uploads it to the S3 bucket"
     echo -e ""
     echo -e "${GREEN}deploy_prod${RESTORE}       Connects to the production server and deploys it"
     echo -e ""
-    echo -e "${GREEN}dkredispgnginx${RESTORE}         Starts dockerized ${RED}nginx, redis and postgres${RESTORE}"
+    echo -e "${GREEN}dkredispgnginx${RESTORE}    Starts dockerized ${RED}nginx, redis and postgres${RESTORE}"
     echo -e ""
 }
 
@@ -115,23 +117,33 @@ function dkup {
     return $exitcode
 }
 
-function dkrun_prod {
+function dkrun_api_prod {
     docker stop picklejar
     docker rm picklejar
     docker run --name picklejar -d --env-file /home/ubuntu/picklejar.env \
-        -p 3000:3000 -p 8000:8000 \
+        -p 8000:8000 \
         -v /home/ubuntu/dkdata/picklejar:/dkdata \
         picklejar start_web.sh
 }
 
+function deploy_front_prod {
+    cd $PROJ_BASE
+    cd frontend/
+    npm install
+    npm run build
+    cd dist/
+    aws s3 sync . s3://picklejar.fabioromeiro.dev --delete
+}
+
 function deploy_prod {
   ssh ubuntu@$HOST_PROD "
-    cd ~/picklejar
+    cd ~/PickleJar
     git reset --hard
     git pull
     source dev.sh
     dkbuild
-    dkrun_prod
+    dkrun_api_prod
+    deploy_front_prod
   "
 }
 
