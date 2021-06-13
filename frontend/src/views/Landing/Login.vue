@@ -1,28 +1,38 @@
 <template>
 	<div class="login-page">
-		<h3 class="login-page__title">Log into your account</h3>
+		<h3 class="login-page__title">Entre na sua conta</h3>
 		<div class="login-page__email">
 			<CustomInput
 				class="email-input"
 				type="email"
 				label="E-mail"
 				v-model="email"
-				:disabled="passimageUrl"
+				:disabled="passimageUrl && !passwordMode"
 			/>
-			<CustomButton v-if="!passimageUrl" @click="loadImagepass" class="email-submit">
-				Continue
-			</CustomButton>
-			<CustomButton v-else @click="resetPassimage" class="email-submit">
-				Change e-mail
-			</CustomButton>
+			<div v-if="!passwordMode">
+				<CustomButton v-if="!passwordStep" @click="goToPasswordStep" class="email-submit">
+					Continuar
+				</CustomButton>
+				<CustomButton v-else @click="changeEmail" class="email-submit">
+					Mudar de e-mail
+				</CustomButton>
+			</div>
 		</div>
-		<div class="login-page__passimage" v-if="passimageUrl">
-			<span class="passimage-label">Click your sequence</span>
-			<GraphicalInput class="passimage-input" v-model="passimageData" :passimage="passimageUrl" @update="logIn" />
+		<div v-if="passwordStep || passwordMode">
+			<div class="login-page__passimage" v-if="!passwordMode">
+				<span class="passimage-label">Clique nos pontos com a sequencia cadastrada</span>
+				<GraphicalInput class="passimage-input" v-model="passimageData" :passimage="passimageUrl" @update="logIn" />
+			</div>
+			<div v-else>
+				<PasswordInput v-model="password" />
+				<CustomButton @click="logIn">
+					Entrar
+				</CustomButton>
+			</div>
 		</div>
 		<div class="login-page__signup">
-			<router-link to="/landing/signup" class="link">
-				I don't have an account
+			<router-link :to="`/landing/signup${passwordMode ? '?passwordMode=true' : ''}`" class="link">
+				Não tenho uma conta ainda
 			</router-link>
 		</div>
 	</div>
@@ -33,28 +43,58 @@ import api from 'Apijs'
 import CustomInput from '@/components/Forms/CustomInput'
 import CustomButton from '@/components/Forms/CustomButton'
 import GraphicalInput from '@/components/Forms/GraphicalInput'
+import PasswordInput from '@/components/Forms/PasswordInput'
 
 export default {
 	components: {
 		CustomInput,
 		GraphicalInput,
-		CustomButton
+		CustomButton,
+		PasswordInput
+	},
+	computed: {
+		passwordMode () {
+			return !!this.$route.query.passwordMode
+		}
 	},
 	methods: {
+		async goToPasswordStep () {
+			if (!this.passwordMode) {
+				await this.loadImagepass()
+			}
+			this.passwordStep = true
+		},
+		changeEmail () {
+			this.passwordStep = false
+			this.resetPassimage()
+		},
 		async logIn () {
 			try {
-				await this.$store.dispatch('auth/login', {
+				const params = {
 					email: this.email,
-					passimageData: this.passimageData
-				})
+				}
+				if (this.passwordMode) {
+					params.password = this.password
+				}
+				else {
+					params.passimageData = this.passimageData
+				}
+				await this.$store.dispatch('auth/login', params)
 				const user = this.$store.getters['auth/currentUser']
 				if (user) {
 					this.$router.push({ name: 'Home' })
 				}
+				else {
+					this.$eventBus.emit(this.$eventKeys.CALL_ALERT, {
+						message: 'Email ou senha incorreta.',
+						type: 'danger',
+						lifeTime: 10000
+					})
+				}
 			}
 			catch (e) {
 				this.$eventBus.emit(this.$eventKeys.CALL_ALERT, {
-						message: 'Wrong sequence. Make it sure you clicked on the right spots',
+						message: 'Sequencia incorreta. Tenha certeza de que clicou nos lugares corretos.',
 						type: 'danger',
 						lifeTime: 4000
 				})
@@ -81,6 +121,8 @@ export default {
 		return {
 			passimageData: {},
 			passimageUrl: null,
+			passwordStep: false,
+			password: '',
 			email: ''
 		}
 	}

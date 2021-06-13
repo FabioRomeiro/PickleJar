@@ -17,11 +17,23 @@
 			ref="graphicalInput"
 			:style="inputStyle"
 			@click="onClick"
-		></div>
+		>
+			<div
+				ref="sequenceGrid"
+				class="graphical-input__sequence_grid"
+				v-show="showSequence"
+			></div>
+		</div>
+
+		<CustomButton class="graphical-input__show-input-button" @click="toggleShowSequence">
+			{{ showSequence ? 'Esconder' : 'Mostrar' }} sequência
+		</CustomButton>
 	</div>
 </template>
 
 <script>
+import CustomButton from '@/components/Forms/CustomButton'
+
 export default {
 	props: {
 		modelValue: Object,
@@ -31,6 +43,9 @@ export default {
 			type: Number,
 			default: 5
 		}
+	},
+	components: {
+		CustomButton
 	},
 	computed: {
 		inputStyle () {
@@ -62,7 +77,8 @@ export default {
 			inputsCount: 0,
 			circleDiameter: 40,
 			gridSize: null,
-			animationDuration: 200
+			animationDuration: 200,
+			showSequence: false
 		}
 	},
 	methods: {
@@ -80,21 +96,33 @@ export default {
 				this.resetData()
 			}
 		},
-		createClickElementEffect (coordinates) {
+		createCircleElement (coordinates, withAnimation, sequenceNumber) {
 			const circleElement = document.createElement('DIV')
 			circleElement.classList.add('graphical-input__circle')
 			circleElement.style.left = `${coordinates.x - this.circleDiameter / 2}px`
 			circleElement.style.top = `${coordinates.y - this.circleDiameter / 2}px`
 			circleElement.style.width = `${this.circleDiameter}px`
 			circleElement.style.height = `${this.circleDiameter}px`
-			circleElement.style.animationDuration = `${this.animationDuration}ms`
-			
-			this.$refs.graphicalInput.appendChild(circleElement)
+			if (withAnimation) {
+				circleElement.style.animationDuration = `${this.animationDuration}ms`
+				circleElement.classList.add('graphical-input__circle--animated')
+			}
+			if (sequenceNumber) {
+				circleElement.innerText = sequenceNumber
+			}
+			return circleElement
+		},
+		createClickElementEffect (coordinates) {
+			const circleElementAnimated = this.createCircleElement(coordinates, true)
+			this.$refs.graphicalInput.appendChild(circleElementAnimated)
 			setTimeout(() => {
 				if (this.$refs.graphicalInput) {
-					this.$refs.graphicalInput.removeChild(circleElement)
+					this.$refs.graphicalInput.removeChild(circleElementAnimated)
 				}
 			}, this.animationDuration + 100)
+
+			const circleElement = this.createCircleElement(coordinates, false, this.inputsCount)
+			this.$refs.sequenceGrid.appendChild(circleElement)
 		},
 		updateValue () {
 			const data = {
@@ -107,6 +135,10 @@ export default {
 		resetData () {
 			this.inputsCount = 0
 			this.inputData = []
+			this.$refs.sequenceGrid.innerHTML = ''
+		},
+		toggleShowSequence () {
+			this.showSequence = !this.showSequence
 		}
 	}
 }
@@ -174,11 +206,33 @@ export default {
 
 	&__circle {
 		position: absolute;
-		opacity: 0;
-		background-color: rgba($color-blue, .6);
+		background-color: rgba($color-blue, .8);
 		border-radius: 50%;
-		animation-name: pulse;
-		animation-timing-function: ease-in-out;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 24px;
+		color: white;
+		font-weight: 500;
+
+		&--animated {
+			background-color: rgba($color-blue, .6);
+			opacity: 0;
+			animation-name: pulse;
+			animation-timing-function: ease-in-out;
+		}
+	}
+
+	&__show-input-button {
+		margin-top: spacing(2);
+	}
+
+	&__sequence_grid {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
 	}
 }
 </style>
