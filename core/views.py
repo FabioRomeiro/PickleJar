@@ -14,14 +14,17 @@ def dapau(request):
 @csrf_exempt
 def login(request):
     email = request.POST['email']
-    pass_data = json.loads(request.POST['pass_data'])
-    user = auth_svc.login(email, pass_data)
+    confirm_user = request.POST.get('confirm_user')
+    password = request.POST.get('password')
+    pass_data = json.loads(request.POST.get('pass_data', '{}'))
+    user = auth_svc.login(email, pass_data, password)
     user_dict = None
     if user is not None:
+        user_dict = _user2dict(user)
+    if not confirm_user and user is not None:
         if user.is_active:
             auth.login(request, user)
             log_svc.log_login(request.user)
-            user_dict = _user2dict(user)
     return JsonResponse(user_dict, safe=False)
 
 
@@ -30,9 +33,10 @@ def signup(request):
     email = request.POST['email']
     first_name = request.POST['first_name']
     last_name = request.POST['last_name']
-    passimage_url = request.POST['passimage_url']
-    pass_data = json.loads(request.POST['pass_data'])
-    auth_svc.signup(email, passimage_url, pass_data, first_name, last_name)
+    passimage_url = request.POST.get('passimage_url', '')
+    password = request.POST.get('password', '')
+    pass_data = json.loads(request.POST.get('pass_data', '{}'))
+    auth_svc.signup(email, passimage_url, pass_data, first_name, last_name, password)
     return JsonResponse({})
 
 

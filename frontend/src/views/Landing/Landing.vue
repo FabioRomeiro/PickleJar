@@ -2,7 +2,7 @@
   <div class="landing">
     <div class="landing__wrapper">
       <div class="landing__logo">
-        <Logo variant="big" />      
+        <Logo variant="big" link-off />      
       </div>
       <div class="landing__box">
         <router-view/>

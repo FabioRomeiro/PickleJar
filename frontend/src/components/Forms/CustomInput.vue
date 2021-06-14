@@ -11,6 +11,7 @@
             :type="type" 
             :placeholder="placeholder"
             :value="modelValue"
+            :disabled="disabled"
         />
         
         <i 
@@ -34,6 +35,7 @@ export default {
         label: String,
         placeholder: String,
         id: String,
+        disabled: Boolean,
         modelValue: [String, Number]
     },
     methods: {

@@ -1,5 +1,5 @@
 <template>
-    <router-link to="/" class="logo" :class="variants">
+    <component :is="linkOff ? 'div' : 'router-link'" to="/" class="logo" :class="variants">
         <LogoSvg :size="size" class="logo__draw" />
         <div class="logo__text">
             <h1 class="title">Pickle Jar</h1>
@@ -8,7 +8,7 @@
                 <strong>Safe</strong>
             </h2>
         </div>
-    </router-link>
+    </component>
 </template>
 
 <script>
@@ -18,7 +18,8 @@ export default {
     name: 'Logo',
     props: {
         size: String,
-        variant: String
+        variant: String,
+        linkOff: Boolean
     },
     components: {
         LogoSvg

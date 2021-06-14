@@ -1,26 +1,41 @@
 import { get, post } from '../helpers/Http';
 
 const api = {
-    login(email, data){
-        return post('/api/login', {
+    login(email, data, password, confirm_user){
+        const params = {
             email,
-            pass_data: JSON.stringify({
+        }
+        if (password) {
+            params.password = password
+        }
+        else {
+            params.pass_data = JSON.stringify({
                 grid_size: data.gridSize,
                 coords: data.inputs
             })
-        })
+        }
+        if (confirm_user) {
+            params.confirm_user = confirm_user
+        }
+        return post('/api/login', params)
     },
-    signup(email, imageUrl, data, firstName, lastName){
-        return post('/api/signup', {
+    signup(email, imageUrl, data, firstName, lastName, password){
+        const params = {
             email,
             first_name: firstName, 
-            last_name: lastName,
-            passimage_url: imageUrl,
-            pass_data: JSON.stringify({
+            last_name: lastName
+        }
+        if (password) {
+            params.password = password
+        }
+        else {
+            params.passimage_url = imageUrl
+            params.pass_data = JSON.stringify({
                 grid_size: data.gridSize,
                 coords: data.inputs
             })
-        })
+        }
+        return post('/api/signup', params)
     },
     logout(){
         return post('/api/logout');

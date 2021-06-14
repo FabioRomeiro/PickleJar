@@ -6,22 +6,39 @@ from core.models import User
 from picklejar.settings import MASTER_KEY
 
 
-def login(email, pass_data):
-    grid_size = pass_data['grid_size']
-    coords = pass_data['coords']
-    user = User.objects.get(email=email)
-    right_coords = decrypt_coords(user.passcoord)
-    if _is_coords_correct(grid_size, coords, right_coords):
-        return user
+def login(email, pass_data, password=None):
+    if password:
+        user = User.objects.filter(email=email, password=password)
+        if user.exists():
+            return user[0]
+    else:
+        grid_size = pass_data['grid_size']
+        coords = pass_data['coords']
+        user = User.objects.get(email=email)
+        right_coords = decrypt_coords(user.passcoord)
+        if _is_coords_correct(grid_size, coords, right_coords):
+            return user
     return None
 
 
-def signup(email, passimage_url, pass_data, first_name, last_name):
-    grid_size = pass_data['grid_size']
-    coords = pass_data['coords']
-    coords = [(coord['x'] / grid_size, coord['y'] / grid_size) for coord in coords]
-    User.objects.create(email=email, passcoord=encrypt_coords(coords), passimage_url=passimage_url,
-                        first_name=first_name, last_name=last_name)
+def signup(email, passimage_url, pass_data, first_name, last_name, password=None):
+    user = User.objects.filter(email=email)
+    if user.exists():
+        save_user({
+            'passimage_url': passimage_url,
+            'first_name': first_name,
+            'last_name': last_name,
+            'pass_data': pass_data,
+            'password': password
+        }, user[0])
+    else:
+        coords = ''
+        if not password:
+            grid_size = pass_data['grid_size']
+            coords = pass_data['coords']
+            coords = [(coord['x'] / grid_size, coord['y'] / grid_size) for coord in coords]
+        User.objects.create(email=email, passcoord=encrypt_coords(coords), passimage_url=passimage_url,
+                            first_name=first_name, last_name=last_name, password=password)
 
 
 def _is_coords_correct(grid_size_px, coords_px, right_coords):
@@ -92,4 +109,5 @@ def save_user(user_new_info, user):
     user.first_name = user_new_info['first_name']
     user.last_name = user_new_info['last_name']
     user.passimage_url = user_new_info['passimage_url']
+    user.password = user_new_info.get('password', '')
     user.save()

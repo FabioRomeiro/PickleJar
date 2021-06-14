@@ -33,7 +33,7 @@ const actions = {
         commit('SET_CURRENT_USER', null)
     },
     async login ({ commit }, data) {
-        const user = await api.login(data.email, data.passimageData)
+        const user = await api.login(data.email, data.passimageData, data.password)
         if (user) {
             commit('SET_CURRENT_USER', user)
         }

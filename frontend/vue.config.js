@@ -22,5 +22,9 @@ module.exports = {
     },
     chainWebpack: config => {
         config.resolve.alias.set('Apijs', pathToApi)
+        config.plugin('html').tap(args => {
+            args[0].title = "PickleJar - Lock it safe";
+            return args;
+        })
     }
 };

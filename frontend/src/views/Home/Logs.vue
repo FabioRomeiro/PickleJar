@@ -1,7 +1,7 @@
 <template>
     <ListingSection class="logs" headerTitle="Your activities" headerIcon="toc">
         <template v-slot:headerButtons>
-            <CustomButton class="header-button" variant="neutral" @click="$router.push('/')">
+            <CustomButton class="header-button" variant="neutral" @click="$router.push({name: 'Overview'})">
                 Voltar
             </CustomButton>
         </template>
