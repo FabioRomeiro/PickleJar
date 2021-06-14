@@ -45,7 +45,7 @@
 					@input="updatePasswordStrength"
 					show-strength
 				/>
-				<CustomButton @click="signUp" :disabled="passwordStrength < 5">
+				<CustomButton @click="signUp" :disabled="passwordStrength < 5" style="margin-top: 16px">
 					Continuar
 				</CustomButton>
 			</div>
@@ -76,7 +76,7 @@
 					@input="updatePasswordStrength"
 					show-strength
 				/>
-				<CustomButton @click="confirmSequence">
+				<CustomButton @click="confirmSequence" style="margin-top: 16px">
 					Confirmar cadastro
 				</CustomButton>
 			</div>

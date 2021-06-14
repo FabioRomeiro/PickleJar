@@ -5,7 +5,7 @@
             id="credential-name" 
             class="workspace-form__field" 
             :modelValue="credential.name" 
-            label="Password name:"
+            label="Credential name:"
         />
         <CustomInput 
             @input="updateCredentialField($event, 'username')"

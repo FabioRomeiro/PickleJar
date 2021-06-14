@@ -46,7 +46,7 @@ export default {
         },
         async logOut() {
             await this.$store.dispatch('auth/logout')
-            this.$router.push({ name: 'Landing' })
+            this.$router.push({ name: 'Login' })
         }
     },
     data() {

@@ -10,22 +10,22 @@
 				:disabled="passimageUrl && !passwordMode"
 			/>
 			<div v-if="!passwordMode">
-				<CustomButton v-if="!passwordStep" @click="goToPasswordStep" class="email-submit">
+				<CustomButton v-if="!passimageUrl" @click="loadImagepass" class="email-submit">
 					Continuar
 				</CustomButton>
-				<CustomButton v-else @click="changeEmail" class="email-submit">
+				<CustomButton v-else @click="resetPassimage" class="email-submit">
 					Mudar de e-mail
 				</CustomButton>
 			</div>
 		</div>
-		<div v-if="passwordStep || passwordMode">
+		<div v-if="passimageUrl || passwordMode">
 			<div class="login-page__passimage" v-if="!passwordMode">
 				<span class="passimage-label">Clique nos pontos com a sequencia cadastrada</span>
 				<GraphicalInput class="passimage-input" v-model="passimageData" :passimage="passimageUrl" @update="logIn" />
 			</div>
-			<div v-else>
+			<div v-else style="margin-top: 16px">
 				<PasswordInput v-model="password" />
-				<CustomButton @click="logIn">
+				<CustomButton style="margin-top: 16px" @click="logIn">
 					Entrar
 				</CustomButton>
 			</div>
@@ -58,16 +58,6 @@ export default {
 		}
 	},
 	methods: {
-		async goToPasswordStep () {
-			if (!this.passwordMode) {
-				await this.loadImagepass()
-			}
-			this.passwordStep = true
-		},
-		changeEmail () {
-			this.passwordStep = false
-			this.resetPassimage()
-		},
 		async logIn () {
 			try {
 				const params = {
@@ -82,7 +72,7 @@ export default {
 				await this.$store.dispatch('auth/login', params)
 				const user = this.$store.getters['auth/currentUser']
 				if (user) {
-					this.$router.push({ name: 'Home' })
+					this.$router.push({ name: 'Overview' })
 				}
 				else {
 					this.$eventBus.emit(this.$eventKeys.CALL_ALERT, {
@@ -107,7 +97,7 @@ export default {
 			} 
 			catch (e) {
 				this.$eventBus.emit(this.$eventKeys.CALL_ALERT, {
-						message: 'This e-mail is not associated with any account',
+						message: 'Este e-mail não está associado a nenhuma conta.',
 						type: 'danger',
 						lifeTime: 4000
 				})
@@ -121,7 +111,6 @@ export default {
 		return {
 			passimageData: {},
 			passimageUrl: null,
-			passwordStep: false,
 			password: '',
 			email: ''
 		}
