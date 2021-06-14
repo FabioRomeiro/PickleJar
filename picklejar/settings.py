@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'channels',
     'explorer',
     'core',
@@ -72,6 +73,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware'
 ]
 
 ROOT_URLCONF = 'picklejar.urls'
@@ -205,6 +207,18 @@ LOGGING = {
 
 EXPLORER_CONNECTIONS = {'default': 'default'}
 EXPLORER_DEFAULT_CONNECTION = 'default'
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = [
+    'http://picklejar.fabioromeiro.dev.s3-website-us-west-2.amazonaws.com',
+    'http://picklejar.fabioromeiro.dev',
+    'https://picklejar.fabioromeiro.dev',
+]
+CORS_ORIGIN_REGEX_WHITELIST = [
+    'http://picklejar.fabioromeiro.dev.s3-website-us-west-2.amazonaws.com',
+    'http://picklejar.fabioromeiro.dev',
+    'https://picklejar.fabioromeiro.dev',
+]
 
 if DEBUG:
     # make all loggers use the console.
