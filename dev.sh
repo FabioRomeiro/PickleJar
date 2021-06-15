@@ -122,6 +122,7 @@ function dkrun_api_prod {
     docker rm picklejar
     docker run --name picklejar -d --env-file /home/ubuntu/picklejar.env \
         -p 8000:8000 \
+        -p 3000:3000 \
         -v /home/ubuntu/dkdata/picklejar:/dkdata \
         picklejar start_web.sh
 }
@@ -143,7 +144,6 @@ function deploy_prod {
     source dev.sh
     dkbuild
     dkrun_api_prod
-    deploy_front_prod
   "
 }
 

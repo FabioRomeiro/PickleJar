@@ -18,6 +18,8 @@ RUN cd /tmp && \
     cp -r node-v15.4.0-linux-x64/* /usr && \
     rm node-v15.4.0-linux-x64.tar.xz
 
+RUN npm install http-server -g
+
 RUN mkdir /dkdata
 WORKDIR /app
 
