@@ -78,9 +78,11 @@ def list_credentials(owner=None, search_text='', order_by='-created_at', favorit
 
 
 def get_password(owner=None, credential_id=None):
-    credential = Credential.objects.get(owner=owner, pk=credential_id, active=True)
-    log_svc.log_password_access(owner, credential)
-    return decrypt_password(credential.password)
+    credential = Credential.objects.filter(owner=owner, pk=credential_id, active=True)
+    if credential.exists() and credential[0].password:
+        log_svc.log_password_access(owner, credential[0])
+        return decrypt_password(credential[0].password)
+    return None
 
 
 def decrypt_password(password):

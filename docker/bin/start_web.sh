@@ -7,4 +7,4 @@ cd /app
 tail -f /dkdata/uwsgi.log
 
 cd /app/frontend/dist
-http-server . -p 3000 --cors
+live-server --port=3000 --cors --entry-file=./index.html
