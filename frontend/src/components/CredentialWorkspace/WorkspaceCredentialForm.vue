@@ -5,7 +5,7 @@
             id="credential-name" 
             class="workspace-form__field" 
             :modelValue="credential.name" 
-            label="Credential name:"
+            label="Nome da credencial:"
         />
         <CustomInput 
             @input="updateCredentialField($event, 'username')"
@@ -22,52 +22,44 @@
                 class="workspace-form__field" 
                 :modelValue="password"
                 :type="passwordVisible ? 'text' : 'password'"
-                label="Password:"
+                label="Senha:"
             />
             <CustomButton @click="togglePassword" class="workspace-form__preview-btn">
                 <i class="material-icons">visibility</i>
             </CustomButton>
         </div>
-        <CustomCheckbox
-            @input="updateCredentialField($event, 'favorite')"
-            class="workspace-form__field" 
-            :modelValue="credential.favorite" 
-            label="Favorite" 
-        />
         <CustomInput 
             @input="updateCredentialField($event, 'link')"
             id="credential-url" 
             class="workspace-form__field" 
             :modelValue="credential.link" 
-            label="Website URL:"
+            label="URL do site:"
         />
         <CustomInput 
             @input="updateCredentialField($event, 'image')"
             id="credential-image" 
             class="workspace-form__field" 
             :modelValue="credential.image" 
-            label="Website image:"
+            label="Imagem do site:"
         />
         <CustomInput 
             @input="updateCredentialField($event, 'notes')"
             id="credential-note" 
             class="workspace-form__field" 
             :modelValue="credential.notes" 
-            label="Notes:"
+            label="Notas:"
         />
     </div>
 </template>
 
 <script>
 import CustomInput from '@/components/Forms/CustomInput.vue'
-import CustomCheckbox from '@/components/Forms/CustomCheckbox.vue'
 import CustomButton from '@/components/Forms/CustomButton.vue'
 
 export default {
     name: 'WorkspaceForm',
     components: {
         CustomInput,
-        CustomCheckbox,
         CustomButton
     },
     computed: {

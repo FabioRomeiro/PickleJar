@@ -13,12 +13,12 @@
         </a>
 
         <div class="workspace-credential-presentation__info-field workspace-credential-presentation__info-field--horizontal">
-            <span class="field-label">Last access:</span>
+            <span class="field-label">Ultimo acesso:</span>
             <span class="field-value">{{ accessDate(credential.last_accessed) }}</span>
         </div>
 
         <div class="workspace-credential-presentation__info-field">
-            <span class="field-label">Credential name:</span>
+            <span class="field-label">Nome da credencial:</span>
             <span class="field-value">{{ credential.name }}</span>
         </div>
 
@@ -35,7 +35,7 @@
         </div>
 
         <div class="workspace-credential-presentation__info-field workspace-credential-presentation__info-field--actions">
-            <span class="field-label">Password:</span>
+            <span class="field-label">Senha:</span>
             <span class="field-value">
                 <span class="value-text">{{ passwordText }}</span>
                 <div class="value-actions">
@@ -49,7 +49,7 @@
             </span>
         </div>
         <div class="workspace-credential-presentation__info-field" v-if="credential.notes">
-            <span class="field-label">Notes:</span>
+            <span class="field-label">Notas:</span>
             <span class="field-value">{{ credential.notes }}</span>
         </div>
     </div>

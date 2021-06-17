@@ -2,7 +2,7 @@
     <div class="overview">
         <div class="overview__content">
             <div class="body-item">
-                <Card headerTitle="Favorites" headerIcon="grade">
+                <Card headerTitle="Favoritas" headerIcon="grade">
                     <template v-slot:content>
                         <ul class="overview__credentials"> 
                             <li class="credentials-item" v-for="credential in favoriteCredentials" :key="credential.id">
@@ -11,8 +11,8 @@
 
                             <EmptyCasePlaceholder
                                 v-if="!favoriteCredentials.length"
-                                title="No favorite credential"
-                                description="Click above the credential's image to mark it as favorite."
+                                title="Nenhuma credencial favorita"
+                                description="Clique sobre a imagem da credencial para marca-la como favorita."
                             >
                                 <CredentialItem mock />
                             </EmptyCasePlaceholder>
@@ -22,7 +22,7 @@
             </div>
 
             <div class="body-item">
-                <Card headerTitle="Recent accessed" headerIcon="schedule">
+                <Card headerTitle="Acessadas recentemente" headerIcon="schedule">
                     <template v-slot:content>
                         <ul class="overview__credentials"> 
                             <li class="credentials-item" v-for="credential in recentAccessedCredentials" :key="credential.id">
@@ -30,8 +30,8 @@
                             </li>
                             <EmptyCasePlaceholder
                                 v-if="!recentAccessedCredentials.length"
-                                title="No registry of access"
-                                description="You don't have any registered credential yet."
+                                title="Sem registro de acesso"
+                                description="Você não tem nenhuma credencial registrada ainda."
                                 icon="filter_list"
                             />
                         </ul>
@@ -39,14 +39,14 @@
                     <template v-slot:footer>
                         <router-link to="/logs" class="link">
                             <i class="material-icons">toc</i>
-                            <span>Check all your activity</span>
+                            <span>Veja todas as suas atividades</span>
                         </router-link>
                     </template>
                 </Card>
 
                 <div class="overview__all-credentials">
                     <router-link to="/credentials" class="link">
-                        <span>Access all <strong>{{ numberOfCredentials }} credentials</strong></span>
+                        <span>Acessar <strong>{{ numberOfCredentials }} credenciais</strong></span>
                         <i class="material-icons">keyboard_arrow_right</i>
                     </router-link>
                 </div>

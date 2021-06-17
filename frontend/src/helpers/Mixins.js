@@ -44,13 +44,13 @@ export const UtilsMixins = {
                 return `${month}/${day}/${year}`;
             }
             else if (difference >= 0.06) {
-                return `${getTimeByDay('hour', difference)} hours ago`;
+                return `${getTimeByDay('hour', difference)} horas atrás`;
             }
             else if (difference >= 0.0006) {
-                return `${getTimeByDay('min', difference)} minutes ago`;
+                return `${getTimeByDay('min', difference)} minutos atrás`;
             }
             else {
-                return `${getTimeByDay('sec', difference)} seconds ago`;
+                return `${getTimeByDay('sec', difference)} segundos atrás`;
             }
         },
         normalizeText(text) {

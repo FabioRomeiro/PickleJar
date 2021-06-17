@@ -84,7 +84,7 @@ export default {
 			}
 			catch (e) {
 				this.$eventBus.emit(this.$eventKeys.CALL_ALERT, {
-						message: 'Sequencia incorreta. Tenha certeza de que clicou nos lugares corretos.',
+						message: 'Sequência incorreta. Tenha certeza de que clicou nos lugares corretos.',
 						type: 'danger',
 						lifeTime: 4000
 				})

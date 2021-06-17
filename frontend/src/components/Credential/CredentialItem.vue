@@ -26,7 +26,7 @@
                 </a>
                 <span href class="info-access">
                     <span v-if="!mock">
-                        Accessed at {{ accessDate(credential.last_accessed) }}
+                        Acessado a {{ accessDate(credential.last_accessed) }}
                     </span>
                 </span>
             </div>

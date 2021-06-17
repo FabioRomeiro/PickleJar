@@ -1,5 +1,5 @@
 <template>
-    <ListingSection class="logs" headerTitle="Your activities" headerIcon="toc">
+    <ListingSection class="logs" headerTitle="Suas atividades" headerIcon="toc">
         <template v-slot:headerButtons>
             <CustomButton class="header-button" variant="neutral" @click="$router.push({name: 'Overview'})">
                 Voltar
@@ -7,7 +7,7 @@
         </template>
         <template v-slot:filters>
             <div class="listing-filter">
-                <span class="label">Credential</span>
+                <span class="label">Credencial</span>
                 <CustomSelect
                     v-model="credentialId"
                     :options="credentialOptions"
@@ -15,7 +15,7 @@
                 />
             </div>
             <div class="listing-filter">
-                <span class="label">Log type</span>
+                <span class="label">Tipo de registro</span>
                 <CustomSelect
                     v-model="logType"
                     :options="logTypes"
@@ -26,10 +26,10 @@
             <table class="logs__table">
                 <thead>
                     <tr class="logs__item logs__item--header">
-                        <th class="logs__col logs__col--time">Time</th>
-                        <th class="logs__col logs__col--message">Occurred</th>
-                        <th class="logs__col logs__col--useragent">Accessed from</th>
-                        <th class="logs__col logs__col--credential">Credential</th>
+                        <th class="logs__col logs__col--time">Momento</th>
+                        <th class="logs__col logs__col--message">Ocorrido</th>
+                        <th class="logs__col logs__col--useragent">Acessado de</th>
+                        <th class="logs__col logs__col--credential">Credencial</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -61,8 +61,8 @@
             </table>
             <EmptyCasePlaceholder
                 v-if="!filteredLogs.length"
-                title="No activity were found"
-                description="You might try another filter combination to get different results"
+                title="Nenhum registro foi encontrado"
+                description="Tente outra combinação de filtro para obter diferentes resultados"
                 icon="filter_list"
             />
         </template>
@@ -173,19 +173,19 @@ export default {
         getLogMessage(logType) {
             switch (logType) {
                 case logTypes.PASSWORD_ACCESS:
-                    return 'Accessed the credential\'s password'
+                    return 'Acessou a senha da credencial'
                 case logTypes.CREDENTIAL_CREATION:
-                    return 'Created new credential'
+                    return 'Criou nova credencial'
                 case logTypes.CREDENTIAL_EDITING:
-                    return 'Edited credential informations'
+                    return 'Editou informações da credencial'
                 case logTypes.ACCOUNT_LOGIN:
-                    return 'Logged in the account'
+                    return 'Entrou na conta'
                 case logTypes.ACCOUNT_LOGOUT:
-                    return 'Logged out of the account'
+                    return 'Saiu da conta'
                 case logTypes.CREDENTIAL_DELETE:
-                    return 'Deleted credential'
+                    return 'Deletou a credencial'
                 case logTypes.ACCOUNT_ACCESS:
-                    return 'Accessed the account using a browser'
+                    return 'Acessou a conta'
             }
         },
         hasLogWithLogType(type) {

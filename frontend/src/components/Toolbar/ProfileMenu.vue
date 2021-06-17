@@ -9,12 +9,12 @@
         <ul class="profile__menu" v-if="menuIsOpen">
             <li class="profile__menu-item">
                 <router-link to="/profile">
-                    Edit profile
+                    Editar perfil
                 </router-link>
             </li>
             <li class="profile__menu-item">
                 <a @click="logOut">
-                    Log out
+                    Sair
                 </a>
             </li>
         </ul>

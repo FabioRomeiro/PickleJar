@@ -26,7 +26,7 @@
                 </span>
                 <span class="access" :class="{ 'has-content': !!credential.last_accessed }">
                     <span v-if="credential.last_accessed">
-                        Accessed at {{ accessDate(credential.last_accessed) }}
+                        Acessado a {{ accessDate(credential.last_accessed) }}
                     </span>
                 </span>
             </div>
@@ -87,7 +87,7 @@ export default {
         deleteCredential() {
             this.$store.dispatch('credentials/deleteCredential', this.credential)
             this.$eventBus.emit(this.$eventKeys.CALL_ALERT, {
-                message: 'Credential deleted with success',
+                message: 'Credencial deletada com sucesso',
                 type: 'success',
                 lifeTime: 4000
             })

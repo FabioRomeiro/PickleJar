@@ -7,7 +7,7 @@
                     @click="deleteCredential" 
                     variant="danger"
                 >
-                    Delete
+                    Deletar
                 </CustomButton>
             </template>
             <template v-slot:content>
@@ -30,10 +30,10 @@
             <template v-slot:footer>
                 <div class="credential-workspace__footer">
                     <CustomButton class="footer-button" @click="openWorkspaceToEdit(credential)" v-if="isViewing">
-                        Edit
+                        Editar
                     </CustomButton>
                     <CustomButton class="footer-button" variant="neutral" @click="closeWorkspace">
-                        Close
+                        Fechar
                     </CustomButton>
                 </div>
             </template>
@@ -131,7 +131,7 @@ export default {
             }
             this.$store.dispatch('credentials/deleteCredential', this.credential)
             this.$eventBus.emit(this.$eventKeys.CALL_ALERT, {
-                message: 'Credential deleted with success',
+                message: 'Credencial deletada com sucesso',
                 type: 'success',
                 lifeTime: 4000
             })

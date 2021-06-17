@@ -68,13 +68,13 @@ export default {
 			try {
 				await api.saveUser(user)
 				this.$eventBus.emit(this.$eventKeys.CALL_ALERT, {
-					message: 'Profile info saved',
+					message: 'Informações do perfil salvas com sucesso',
 					type: 'success',
 					lifeTime: 4000
 				})
 			} catch (e) {
 				this.$eventBus.emit(this.$eventKeys.CALL_ALERT, {
-					message: 'An error occurred on saving the profile info',
+					message: 'Ocorreu um erro ao salvar as informações do perfil',
 					type: 'danger',
 					lifeTime: 4000
 				})

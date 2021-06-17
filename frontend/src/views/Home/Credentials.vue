@@ -1,23 +1,16 @@
 <template>
-    <ListingSection class="credentials" headerTitle="Credentials" headerIcon="lock">
+    <ListingSection class="credentials" headerTitle="Credenciais" headerIcon="lock">
         <template v-slot:headerButtons>
             <CustomButton class="header-button" variant="neutral" @click="$router.push('/')">
                 Voltar
             </CustomButton>
             <CustomButton class="credentials__header-button" @click="addNewCredential()">
-                Add Credential
+                Adicionar credencial
             </CustomButton>
         </template>
         <template v-slot:filters>
             <div class="listing-filter">
-                <span class="label">Credential status</span>
-                <CustomSelect
-                    v-model="credentialStatus"
-                    :options="statusOptions"
-                />
-            </div>
-            <div class="listing-filter">
-                <span class="label">Sort by</span>
+                <span class="label">Ordenar por</span>
                 <CustomSelect
                     v-model="sortBy"
                     :options="sortOptions"
@@ -26,7 +19,7 @@
             <div class="listing-filter">
                 <CustomCheckbox
                     v-model="favoritesOnly"
-                    label="Favorites only"
+                    label="Apenas favoritas"
                 />
             </div>
         </template>
@@ -37,8 +30,8 @@
                 </li>
                 <li class="credentials__empty-message" v-if="!filteredCredentials.length">
                     <EmptyCasePlaceholder
-                        title="No credentials were found"
-                        description="Try another filter combination to find exactly what you need."
+                        title="Nenhuma credencial encontrada"
+                        description="Tente outra combinação de filtro para encontrar o que precisa."
                     >
                         <CredentialCard mock />
                     </EmptyCasePlaceholder>
@@ -111,17 +104,17 @@ export default {
         return {
             favoritesOnly: false,
             sortOptions: [
-                { value: 'creation', label: 'Creation' },
-                { value: 'access', label: 'Access' },
+                { value: 'creation', label: 'Criação' },
+                { value: 'access', label: 'Acesso' },
             ],
             sortBy: 'access',
             credentialStatus: '',
             statusOptions: [
                 { value: '', label: 'All' },
-                { value: 'STRONG', label: 'Strong' },
-                { value: 'MEDIUM', label: 'Moderate' },
-                { value: 'UNSAFE', label: 'Unsafe' },
-                { value: 'OBVIOUS', label: 'Obvious' },
+                { value: 'STRONG', label: 'Forte' },
+                { value: 'MEDIUM', label: 'Moderada' },
+                { value: 'UNSAFE', label: 'Insegura' },
+                { value: 'OBVIOUS', label: 'Óbvia' },
             ]
         }
     }

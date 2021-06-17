@@ -7,7 +7,7 @@
             v-model="search"
             @input="searchCredentials"
             @focus="searchFocused"
-            placeholder="Search for the name or the url of a website"
+            placeholder="Procure pelo nome ou url de uma credencial"
         />
 
         <div class="credential-search__results" v-if="searchResultsOpen">
@@ -27,13 +27,13 @@
             >
                 <EmptyCasePlaceholder
                     v-if="!filteredCredentials.length && !loading && !debounce"
-                    title="No credentials were found"
-                    description="Try searching by another text"
+                    title="Nenhuma credencial encontrada"
+                    description="Tente buscar por outro texto"
                     icon="filter_list"
                 />
                 <EmptyCasePlaceholder
-                    title="Loading credentials"
-                    description="Your search will be ready in a second"
+                    title="Carregando credenciais"
+                    description="Sua busca estará pronta em um instante"
                     v-if="loading"
                 />
             </div>
