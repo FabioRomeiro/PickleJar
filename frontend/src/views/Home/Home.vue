@@ -18,19 +18,19 @@ export default {
 		Toolbar,
 		CredentialWorkspace
 	},
-	created () {
-		const self = this
-		const ws = new WebSocket(`ws://picklejar-api.fabioromeiro.dev/ws/user/`)
-		ws.onmessage = evt => {
-			const data = JSON.parse(evt.data)
-			if (data.type === 'send_logout') {
-					self.$router.push({ name: 'Landing' })
-			}
-			else if (data.type === 'send_updated_user') {
-					self.$store.commit('auth/SET_CURRENT_USER', data.user)
-			}
-		}
-	}
+	// created () {
+	// 	const self = this
+	// 	const ws = new WebSocket(`ws://picklejar-api.fabioromeiro.dev/ws/user/`)
+	// 	ws.onmessage = evt => {
+	// 		const data = JSON.parse(evt.data)
+	// 		if (data.type === 'send_logout') {
+	// 				self.$router.push({ name: 'Landing' })
+	// 		}
+	// 		else if (data.type === 'send_updated_user') {
+	// 				self.$store.commit('auth/SET_CURRENT_USER', data.user)
+	// 		}
+	// 	}
+	// }
 };
 </script>
 
