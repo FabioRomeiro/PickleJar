@@ -39,12 +39,12 @@ def save_credential(credential_dict, owner):
         log_svc.log_credential_creation(owner, credential)
 
     credential_dict = credential.to_dict_json()
-    channel_layer = get_channel_layer()
-    async_to_sync(channel_layer.group_send)('credentials', {
-        'type': 'send_updated_credential',
-        'credential': credential_dict,
-        'credential_id': credential.id
-    })
+    # channel_layer = get_channel_layer()
+    # async_to_sync(channel_layer.group_send)('credentials', {
+    #     'type': 'send_updated_credential',
+    #     'credential': credential_dict,
+    #     'credential_id': credential.id
+    # })
     return credential_dict
 
 
@@ -53,11 +53,11 @@ def delete_credential(credential_id, owner):
     if credential.exists():
         log_svc.log_credential_delete(owner, credential[0])
         credential.update(active=False)
-        channel_layer = get_channel_layer()
-        async_to_sync(channel_layer.group_send)('credentials', {
-            'type': 'send_deleted_credential',
-            'credential_id': credential_id
-        })
+        # channel_layer = get_channel_layer()
+        # async_to_sync(channel_layer.group_send)('credentials', {
+        #     'type': 'send_deleted_credential',
+        #     'credential_id': credential_id
+        # })
 
 
 def list_credentials(owner=None, search_text='', order_by='-created_at', favorite_only=False, count_only=False,
