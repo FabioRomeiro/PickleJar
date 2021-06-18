@@ -109,5 +109,7 @@ def save_user(user_new_info, user):
     user.first_name = user_new_info['first_name']
     user.last_name = user_new_info['last_name']
     user.passimage_url = user_new_info['passimage_url']
-    user.password = user_new_info.get('password', '')
+    password = user_new_info.get('password')
+    if password:
+        user.password = password
     user.save()
