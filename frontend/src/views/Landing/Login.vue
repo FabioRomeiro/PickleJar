@@ -1,34 +1,34 @@
 <template>
 	<div class="login-page">
 		<h3 class="login-page__title">Entre na sua conta</h3>
-		<div class="login-page__email">
+		<form @submit.prevent="loadImagepass" class="login-page__email">
 			<CustomInput
 				class="email-input"
-				type="email"
+				type="text"
 				label="E-mail"
 				v-model="email"
 				:disabled="passimageUrl && !passwordMode"
 			/>
 			<div v-if="!passwordMode">
-				<CustomButton v-if="!passimageUrl" @click="loadImagepass" class="email-submit">
+				<CustomButton type="submit" v-if="!passimageUrl" class="email-submit">
 					Continuar
 				</CustomButton>
 				<CustomButton v-else @click="resetPassimage" class="email-submit">
 					Mudar de e-mail
 				</CustomButton>
 			</div>
-		</div>
+		</form>
 		<div v-if="passimageUrl || passwordMode">
 			<div class="login-page__passimage" v-if="!passwordMode">
 				<span class="passimage-label">Clique nos pontos com a sequencia cadastrada</span>
 				<GraphicalInput class="passimage-input" v-model="passimageData" :passimage="passimageUrl" @update="logIn" />
 			</div>
-			<div v-else style="margin-top: 16px">
+			<form @submit.prevent="logIn" v-else style="margin-top: 16px">
 				<PasswordInput v-model="password" />
-				<CustomButton style="margin-top: 16px" @click="logIn">
+				<CustomButton type="submit" style="margin-top: 16px">
 					Entrar
 				</CustomButton>
-			</div>
+			</form>
 		</div>
 		<div class="login-page__signup">
 			<router-link :to="`/landing/signup${passwordMode ? '?passwordMode=true' : ''}`" class="link">

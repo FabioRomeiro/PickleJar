@@ -12,8 +12,13 @@
 			</div>
 		</div>
 
+		<CustomButton class="graphical-input__show-input-button" @click="toggleShowSequence">
+			{{ showSequence ? 'Esconder' : 'Mostrar' }} sequência
+		</CustomButton>
+
 		<div
 			class="graphical-input__input"
+			:class="{'graphical-input__input--show-sequence': showSequence}"
 			ref="graphicalInput"
 			:style="inputStyle"
 			@click="onClick"
@@ -24,10 +29,6 @@
 				v-show="showSequence"
 			></div>
 		</div>
-
-		<CustomButton class="graphical-input__show-input-button" @click="toggleShowSequence">
-			{{ showSequence ? 'Esconder' : 'Mostrar' }} sequência
-		</CustomButton>
 	</div>
 </template>
 
@@ -39,6 +40,7 @@ export default {
 		modelValue: Object,
 		passimage: String,
 		withSteps: Boolean,
+		clearResults: {type: Boolean, default: true},
 		inputs: {
 			type: Number,
 			default: 5
@@ -93,7 +95,9 @@ export default {
 			this.createClickElementEffect(coordinates)
 			if (this.inputsCount === this.inputs) {
 				this.updateValue()
-				this.resetData()
+				if (this.clearResults) {
+					this.resetData()
+				}
 			}
 		},
 		createCircleElement (coordinates, withAnimation, sequenceNumber) {
@@ -202,6 +206,12 @@ export default {
 		border: solid 1px $color-gray !important;
 		background-position: center;
 		background-size: cover;
+		transition: border .3s ease-in-out;
+		box-sizing: border-box;
+
+		&--show-sequence {
+			border: solid 3px $color-green-dark !important;
+		}
 	}
 
 	&__circle {
@@ -224,7 +234,7 @@ export default {
 	}
 
 	&__show-input-button {
-		margin-top: spacing(2);
+		margin-bottom: spacing(2);
 	}
 
 	&__sequence_grid {

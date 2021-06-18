@@ -4,12 +4,12 @@
 			<a href @click.prevent="goPreviousStep" class="link" v-if="step > 1">
 				Voltar
 			</a>
-			<h3 class="signup-page__title">Faça cadastro de uma nova conta</h3>
+			<h3 class="signup-page__title">{{ pageTitle }}</h3>
 		</div>
-		<div class="signup-page__step" v-if="step === 1">
+		<form @submit.prevent="goNextStep" class="signup-page__step" v-if="step === 1">
 			<div class="signup-page__field">
 				<CustomInput
-					type="email"
+					type="text"
 					label="E-mail"
 					v-model="email"
 				/>
@@ -33,10 +33,10 @@
 				</div>
 			</div>
 
-			<CustomButton @click="goNextStep" :disabled="!email || ! firstName || ! lastName">
+			<CustomButton type="submit" :disabled="!email || ! firstName || ! lastName">
 				Configurar senha
 			</CustomButton>
-		</div>
+		</form>
 
 		<div class="signup-page__step" v-else-if="step === 2">
 			<div v-if="passwordMode">
@@ -63,7 +63,10 @@
 					<p class="passimage-description">
 						Selecione 5 pontos na imagem escolhida para criar sua senha
 					</p>
-					<GraphicalInput class="passimage-input" v-model="passimageData" :passimage="passimageUrl" @update="signUp" with-steps />
+					<GraphicalInput class="passimage-input" v-model="passimageData" :passimage="passimageUrl" @update="signUpAllowed = true" with-steps :clear-results="false" />
+					<CustomButton :disabled="!signUpAllowed" @click="signUp" style="margin-top: 16px">
+						Continuar
+					</CustomButton>
 				</div>
 			</div>
 		</div>
@@ -81,11 +84,12 @@
 				</CustomButton>
 			</div>
 			<div v-else>
-				<div class="signup-page__field signup-page__passimage-url">
+				<div class="signup-page__field signup-page__passimage-url" style="display: flex; align-items: center; gap: 16px;">
 					<CustomInput
 						type="url"
 						v-model="passimageUrl"
 						disabled
+						style="flex-grow: 1"
 					/>
 					<CustomButton @click="goPreviousStep">
 						Mudar imagem
@@ -127,6 +131,13 @@ export default {
 	computed: {
 		passwordMode () {
 			return !!this.$route.query.passwordMode
+		},
+		pageTitle () {
+			return {
+				1: 'Faça cadastro de uma nova conta',
+				2: 'Configure sua senha',
+				3: 'Confirme sua senha'
+			}[this.step]
 		}
 	},
 	methods: {
@@ -134,6 +145,8 @@ export default {
 			await api.signup(this.email, this.passimageUrl, this.passimageData, this.firstName, this.lastName, this.password)
 			this.passimageData = {}
 			this.password = ''
+			this.signUpAllowed = true
+			window.scrollTo(0, 0)
 			this.goNextStep()
 		},
 		async confirmSequence () {
@@ -162,9 +175,11 @@ export default {
 		},
 		goNextStep () {
 			this.step += 1
+			this.signUpAllowed = false
 		},
 		goPreviousStep () {
 			this.step -= 1
+			this.signUpAllowed = false
 		},
 		updatePasswordStrength (strength) {
 			this.passwordStrength = strength
@@ -178,6 +193,7 @@ export default {
 			firstName: '',
 			lastName: '',
 			step: 1,
+			signUpAllowed: false,
 			password: '',
 			passwordStrength: 0
 		}
